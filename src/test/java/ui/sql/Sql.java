@@ -1,12 +1,12 @@
 package ui.sql;
 
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Sql {
 
@@ -38,38 +38,62 @@ public class Sql {
 
     //Возвращает true или false по запросу из vc_user по oid
     public Boolean selectVcUserForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url, dev_login, dev_password);
-                break;
-            case DEV2:
-            connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         Boolean exe = statement.execute("select * from vc_user where user_id = '" + oid + "';");
         // Закрытие соединения
         connection.close();
         return exe;
     }
 
+    public void checkInVcUser(ConnectionStands connectionStands, String oid, String columnName, int count) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select " + columnName + " from vc_user where user_id = '" + oid + "';");
+        // Закрытие соединения
+        int lines = checkTable(rs, columnName, "CONFIRM");
+        Assert.assertTrue(lines == count);
+        connection.close();
+    }
+
+    @Step("Проверка количества строк в таблице vc_cert")
+    public void checkInVcCert(ConnectionStands connectionStands, String oid, int count) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select * from vc_cert where user_id ='"+ oid +"';");
+        int rowCount = 0;
+        if(rs!=null) {
+            rs.last();
+            rowCount = rs.getRow();
+        }
+        Assert.assertTrue(rowCount == count);
+    }
+
+    @Step("Проверка количества строк в таблице covid_status_cert")
+    public void checkInCovidStatusCert(ConnectionStands connectionStands, String oid, int count) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select * from covid_status_cert where oid ='"+ oid +"';");
+        int rowCount = 0;
+        if(rs!=null) {
+            rs.last();
+            rowCount = rs.getRow();
+        }
+        Assert.assertTrue(rowCount == count);
+    }
+
+    @Step("Проверка наличия значения {verifiable} в названном столбце {columnName}")
+    public int checkTable(ResultSet rs, String columnName, String verifiable) throws SQLException {
+        ArrayList<String> result = new ArrayList<>();
+        // Перебор строк с данными
+        while(rs.next()){
+            result.add(rs.getString(columnName));
+        }
+        for(int i = 0; i < result.size(); i++) {
+            Assert.assertTrue(result.get(i).contains(verifiable));
+        }
+        return result.size();
+    }
+
     //Возвращает true или false по запросу из vc_cert по oid
     public Boolean selectVcCertForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url, dev_login, dev_password);
-                break;
-            case DEV2:
-                connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         Boolean exe = statement.execute("select * from vc_cert where user_id = " + oid + ";");
         // Закрытие соединения
         connection.close();
@@ -78,18 +102,7 @@ public class Sql {
 
     //Возвращает true или false по запросу из covid_status_cert по oid
     public Boolean selectCovidStatusCertForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url, dev_login, dev_password);
-                break;
-            case DEV2:
-                connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         Boolean exe = statement.execute("select * from covid_status_cert where oid = " + oid);
         // Закрытие соединения
         connection.close();
@@ -98,18 +111,7 @@ public class Sql {
 
     //Возвращает true или false по запросу из covid_register_record по oid
     public Boolean selectCovidRegisterRecordForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url, dev_login, dev_password);
-                break;
-            case DEV2:
-                connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         Boolean exe = statement.execute("select * from covid_register_record where user_id = '" + oid + "';");
         // Закрытие соединения
         connection.close();
@@ -118,38 +120,16 @@ public class Sql {
 
     //Возвращает true или false по запросу из covid_test_from_mo oracle по oid
     public Boolean selectCovidTestFromMoForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url_oracle, uat_login_oracle, uat_password_oracle);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url_oracle, dev_login_oracle, dev_password_oracle);
-                break;
-            case DEV2:
-                connection = DriverManager.getConnection(dev2_url_oracle, dev2_login_oracle, dev2_password_oracle);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         Boolean exe = statement.execute("SELECT * FROM LK.COVID_TEST_FROM_MO_DP where oid = " + oid);
         // Закрытие соединения
         connection.close();
         return exe;
     }
 
-    //удаляет записи из бд vc_cert по oid
+    @Step("удаляет записи из бд vc_cert по oid")
     public void deleteVcCertForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url, dev_login, dev_password);
-                break;
-            case DEV2:
-                connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         int upd = statement.executeUpdate("DELETE from vc_cert where user_id = '" + oid + "';");
         // Закрытие соединения
         connection.close();
@@ -158,20 +138,9 @@ public class Sql {
          else logger.info("Не найдены подходящие записи для удаления");
     }
 
-    //удаляет записи из бд vc_user по oid
+    @Step("удаляет записи из бд vc_user по oid")
     public void deleteVcUserForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url, dev_login, dev_password);
-                break;
-            case DEV2:
-                connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         int upd = statement.executeUpdate("DELETE from vc_user where user_id = '" + oid + "';");
         // Закрытие соединения
         connection.close();
@@ -180,20 +149,9 @@ public class Sql {
         else logger.info("Не найдены подходящие записи для удаления");
     }
 
-    //удаляет записи из бд covid_register_record по oid
+    @Step("удаляет записи из бд covid_register_record по oid")
     public void deleteCovidRegisterRecordForOid(ConnectionStands connectionStands, String oid) throws SQLException {
-        switch(connectionStands) {
-            case UAT:
-                connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
-                break;
-            case DEV:
-                connection = DriverManager.getConnection(dev_url, dev_login, dev_password);
-                break;
-            case DEV2:
-                connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
-                break;
-        }
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection(connectionStands);
         int upd = statement.executeUpdate("DELETE from covid_register_record where user_id = '" + oid + "';");
         // Закрытие соединения
         connection.close();
@@ -202,8 +160,28 @@ public class Sql {
         else logger.info("Не найдены подходящие записи для удаления");
     }
 
-    //удаляет записи из бд covid_status_cert по oid
+    @Step("удаляет записи из бд covid_status_cert по oid")
     public void deleteCovidStatusCertForOid(ConnectionStands connectionStands, String oid) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        int upd = statement.executeUpdate("delete from  covid_status_cert where oid =  " + oid);
+        // Закрытие соединения
+        connection.close();
+        if (upd > 0)
+            logger.info("Количество удаленых строк = " + upd);
+        else logger.info("Не найдены подходящие записи для удаления");
+    }
+
+    @Step("Удаление из бд covid_status_cer, vc_user и vc_cert полей по oid")
+    public void prepareForTestVaccine(ConnectionStands connectionStands, String oid) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        int delCVC = statement.executeUpdate("delete from covid_status_cert where oid =  " + oid);
+        int delVCS = statement.executeUpdate("DELETE from vc_user where user_id = '" + oid + "';");
+        int delVCU = statement.executeUpdate("DELETE from vc_cert where user_id = '" + oid + "';");
+        connection.close();
+    }
+
+    @Step("Получение подключения по стенду")
+    public Statement getConnection(ConnectionStands connectionStands) throws SQLException {
         switch(connectionStands) {
             case UAT:
                 connection = DriverManager.getConnection(uat_url, uat_login, uat_password);
@@ -215,15 +193,7 @@ public class Sql {
                 connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
                 break;
         }
-        Statement statement = connection.createStatement();
-        int upd = statement.executeUpdate("delete from  covid_status_cert where oid =  " + oid);
-        // Закрытие соединения
-        connection.close();
-        if (upd > 0)
-            logger.info("Количество удаленых строк = " + upd);
-        else logger.info("Не найдены подходящие записи для удаления");
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        return statement;
     }
-
-
 }
-
