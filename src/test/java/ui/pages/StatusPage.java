@@ -4,44 +4,84 @@ import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class StatusPage {
 
     private WebDriver driver;
-    private By status = By.xpath("//span[@id='status']");
-    private By greenBg = By.xpath("//div[@id='green-bg']");
-    private By redBg = By.xpath("//div[@id='red-bg']");
+    private By status = By.xpath("//span[@id='status']"); //поле со статусом
+    private By greenBg = By.xpath("//div[@id='green-bg']"); //зеленая плашка
+    private By redBg = By.xpath("//div[@id='red-bg']"); //красная плашка
+    private String activeUntil = "Действителен до";
+    private String expired = "Срок истёк";
+    private String activeSince = "Действителен с";
 
     public StatusPage(WebDriver driver) { this.driver = driver;}
 
     @Step("Проверка активного статуса сертификата")
-    public void getActiveStatus(){
-        driver.findElement(greenBg).isDisplayed();
-        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(status, "Действителен до"));
-        String statusText = driver.findElement(status).getText();
-        Assert.assertTrue(statusText.contains("Действителен до"));
+    public void getActiveStatus(WebDriver driver){
+        this.driver = driver;
+        checkStatus(greenBg, activeUntil);
     }
 
     @Step("Проверка истечения срока сертификата")
-    public void getNegativeStatus(){
-        driver.findElement(redBg).isDisplayed();
-        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(status, "Срок истёк"));
-        String statusText = driver.findElement(status).getText();
-        Assert.assertTrue(statusText.contains("Срок истёк"));
+    public void getNegativeStatus(WebDriver driver){
+        this.driver = driver;
+        checkStatus(redBg, expired);
+    }
+
+    @Step("Проверка истечения срока сертификата и даты истечения сертификата")
+    public void getNegativeStatus(WebDriver driver, String date, Date vacDate) throws ParseException {
+        this.driver = driver;
+        String statusText = checkStatus(redBg, expired);
+        Date startDate = checkDateForVaccine(statusText,date);
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date vacDateNoTime = formatter.parse(formatter.format(vacDate));
+        Assert.assertTrue(startDate.equals(addYear(vacDateNoTime)));
     }
 
     @Step("Проверка того, что срок сертификата еще не наступил")
-    public void getHasNotArriveStatus(){
-        driver.findElement(redBg).isDisplayed();
+    public void getHasNotArriveStatus(WebDriver driver){
+        this.driver = driver;
+        checkStatus(redBg, activeSince);
+    }
+
+    @Step("Проверка статуса")
+    public String checkStatus(By colorBg, String checkText){
+        driver.findElement(colorBg).isDisplayed();
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(status, "Действителен с"));
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(status, checkText));
         String statusText = driver.findElement(status).getText();
-        Assert.assertTrue(statusText.contains("Действителен с"));
+        Assert.assertTrue(statusText.contains(checkText));
+        return statusText;
+    }
+
+    @Step("Проверка даты действия сертификата на экране валидации")
+    //преобразовать в дату
+    public Date checkDateForVaccine(String statusText, String date) throws ParseException {
+        int index = statusText.lastIndexOf(" ");
+        statusText = statusText.substring((index+1));
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date statusDate = format.parse(statusText);
+        format.applyPattern("dd.MM.yy");
+        Date covidDate = format.parse(date);
+        Assert.assertTrue(statusDate.equals(covidDate));
+        return covidDate;
+    }
+
+    public static Date addYear(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.YEAR, 1);
+        return cal.getTime();
     }
 }

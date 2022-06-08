@@ -8,9 +8,9 @@ import org.openqa.selenium.WebElement;
 public class LoginPage {
 
     private WebDriver driver;
-    private final By loginInput = By.xpath("//input[@id='login']");
-    private final By passInput = By.xpath("//input[@id='password']");
-    private final By logInButton = By.xpath("//button[@class='plain-button wide']");
+    private final By loginInput = By.xpath("//input[@id='login']"); // поле логина
+    private final By passInput = By.xpath("//input[@id='password']"); // поле пароля
+    private final By logInButton = By.xpath("//button[@class='plain-button wide']"); // войти
 
     public LoginPage(WebDriver driver){
         this.driver = driver;

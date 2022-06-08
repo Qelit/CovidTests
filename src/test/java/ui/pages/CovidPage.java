@@ -13,12 +13,16 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CovidPage {
 
     private WebDriver driver;
-    private final By qr = By.xpath("//img[@class='qr-image']");
-    private final By emptyQr = By.xpath("//div[@class='text-center text-left-lg']");
+    private final By qr = By.xpath("//img[@class='qr-image']"); // qr код
+    private final By emptyQr = By.xpath("//div[@class='text-center text-left-lg']"); // надпись рядом с qr
 
     public CovidPage(WebDriver driver){
         this.driver = driver;
@@ -41,5 +45,37 @@ public class CovidPage {
         driver.findElement(emptyQr).isDisplayed();
         String emQr = driver.findElement(emptyQr).getText();
         Assert.assertTrue(emQr.contains("QR-код отсутствует"));
+    }
+
+    @Step
+    public String checkDateOverdueCert(WebDriver driver){
+        this.driver = driver;
+        driver.findElement(emptyQr).isDisplayed();
+        String emQr = driver.findElement(emptyQr).getText();
+        int index = emQr.lastIndexOf(" ");
+        emQr = emQr.substring((index+1));
+        return emQr;
+    }
+
+    @Step("Проверка даты окончания сертификата")
+    public Date checkDateForVaccine(WebDriver driver, Date vacDate) throws ParseException {
+        this.driver = driver;
+        driver.findElement(emptyQr).isDisplayed();
+        String emQr = driver.findElement(emptyQr).getText();
+        int index = emQr.lastIndexOf(" ");
+        emQr = emQr.substring((index+1));
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy");
+        Date covidDate = format.parse(emQr);
+        Date date = format.parse(format.format(vacDate));
+        Assert.assertTrue(covidDate.equals(addYear(date)));
+        return date;
+    }
+
+    public static Date addYear(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.YEAR, 1);
+        return cal.getTime();
     }
 }

@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 public class MainPage {
 
     private WebDriver driver;
-    private final By enterButton = By.xpath("//a[@class='link ng-star-inserted']");
+    private final By enterButton = By.xpath("//a[@class='link ng-star-inserted']"); // войти
 
     public MainPage(WebDriver driver){
         this.driver = driver;

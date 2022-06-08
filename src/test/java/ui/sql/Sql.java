@@ -28,6 +28,7 @@ public class Sql {
     protected String dev2_url_oracle = "pgu@//10.81.21.87:1521/u00pgu";
     protected String dev2_login_oracle = "pgu";
     protected String dev2_password_oracle = "pgu";
+    final String confirm = "confirm";
 
     Connection connection;
     protected Logger logger = LogManager.getLogger();
@@ -54,6 +55,23 @@ public class Sql {
         connection.close();
     }
 
+    public void checkInCovidRegisterRecord(ConnectionStands connectionStands, String oid, int count) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select * from covid_register_record where user_id = '" + oid + "'; ");
+        checkTable(rs, count);
+        connection.close();
+    }
+
+    @Step
+    public void checkTable(ResultSet rs, int count) throws SQLException {
+        int rowCount = 0;
+        if(rs!=null) {
+            rs.last();
+            rowCount = rs.getRow();
+        }
+        Assert.assertTrue(rowCount == count);
+    }
+
     @Step("Проверка количества строк в таблице vc_cert")
     public void checkInVcCert(ConnectionStands connectionStands, String oid, int count) throws SQLException {
         Statement statement = getConnection(connectionStands);
@@ -77,6 +95,7 @@ public class Sql {
         }
         Assert.assertTrue(rowCount == count);
     }
+
 
     @Step("Проверка наличия значения {verifiable} в названном столбце {columnName}")
     public int checkTable(ResultSet rs, String columnName, String verifiable) throws SQLException {
@@ -171,13 +190,18 @@ public class Sql {
         else logger.info("Не найдены подходящие записи для удаления");
     }
 
-    @Step("Удаление из бд covid_status_cer, vc_user и vc_cert полей по oid")
+    @Step("Удаление из бд covid_status_cert, vc_user и vc_cert полей по oid")
     public void prepareForTestVaccine(ConnectionStands connectionStands, String oid) throws SQLException {
         Statement statement = getConnection(connectionStands);
         int delCVC = statement.executeUpdate("delete from covid_status_cert where oid =  " + oid);
         int delVCS = statement.executeUpdate("DELETE from vc_user where user_id = '" + oid + "';");
         int delVCU = statement.executeUpdate("DELETE from vc_cert where user_id = '" + oid + "';");
         connection.close();
+    }
+
+    public void prepareForTestIllness(ConnectionStands connectionStands, String oid) throws SQLException {
+        deleteCovidRegisterRecordForOid(connectionStands, oid);
+        deleteCovidStatusCertForOid(connectionStands, oid);
     }
 
     @Step("Получение подключения по стенду")

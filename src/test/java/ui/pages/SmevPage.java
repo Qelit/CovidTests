@@ -19,11 +19,11 @@ public class SmevPage {
     private WebDriver driver;
     private User user;
     private long unrz;
-    private final By xmlRequest = By.xpath("//textarea[@id='xmlRequest']");
-    private final By buttonSubmit = By.xpath("//button[@type='submit']");
+    private final By xmlRequest = By.xpath("//textarea[@id='xmlRequest']"); // поле с запросом
+    private final By buttonSubmit = By.xpath("//button[@type='submit']"); // кнопка отправить
     private final By files = By.xpath("//textarea[@id='files']");
     private final By messageId = By.xpath("//div[@class='modal-body']//p/b");
-    private final By buttonCloseMessageId = By.xpath("//button[@class='close']");
+    private final By buttonCloseMessageId = By.xpath("//button[@class='close']"); // кнопка закрыть на messageId
 
     public SmevPage(WebDriver driver) {this.driver = driver;}
 
@@ -39,8 +39,17 @@ public class SmevPage {
         return user;
     }
 
+    @Step("Получение из json файла пользователя для тестирования вакцины")
+    public User getIllnessUser() throws IOException {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+            user = mapper.readValue(new File("src/test/resources/illnessUser.json"), User.class);
+        return user;
+    }
+
     @Step("Отправка активной однофазной вакцины, сделанной месяц назад")
-    public void submitVaccineSinglePhaseActive(WebDriver driver){
+    public Date submitVaccineSinglePhaseActive(WebDriver driver){
+        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -48,19 +57,25 @@ public class SmevPage {
         driver.findElement(xmlRequest).clear();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
         driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
     }
 
     @Step("Отправка однофазной вакцины от сегодняшнего дня")
-    public void submitVaccineSinglePhaseHasNotArrived(WebDriver driver){
+    public Date submitVaccineSinglePhaseHasNotArrived(WebDriver driver){
+        this.driver = driver;
         user = getVaccineUser();
         Date date = new Date();
         driver.findElement(xmlRequest).clear();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
         driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
     }
 
     @Step("Создание просроченной однофазной вакцины")
-    public void submitVaccineSinglePhaseOverdue(WebDriver driver){
+    public Date submitVaccineSinglePhaseOverdue(WebDriver driver){
+        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -69,10 +84,13 @@ public class SmevPage {
         driver.findElement(xmlRequest).clear();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
         driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
     }
 
     @Step("Отправка первой фазы двухвазной вакцины")
-    public void submitVaccineFirstPhase(WebDriver driver){
+    public Date submitVaccineFirstPhase(WebDriver driver){
+        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -81,10 +99,13 @@ public class SmevPage {
         driver.findElement(xmlRequest).clear();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,2, unrz));
         driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
     }
 
     @Step("Отправка активной двухфазной вакцины")
-    public void submitVaccineTwoPhaseActive(WebDriver driver){
+    public Date submitVaccineTwoPhaseActive(WebDriver driver){
+        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -98,16 +119,18 @@ public class SmevPage {
         date = new Date();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 2,2, unrz));
         driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
     }
 
     @Step("Отправка просроченной двухфазной вакцины")
-    public void submitVaccineTwoPhaseOverdue(WebDriver driver){
+    public Date submitVaccineTwoPhaseOverdue(WebDriver driver){
+        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, -1);
         cal.add(Calendar.MONTH, -2);
         Date date = cal.getTime();
-        //driver.findElement(files).clear();
         driver.findElement(xmlRequest).clear();
         long unrz = rnd();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,2, unrz));
@@ -115,8 +138,41 @@ public class SmevPage {
         driver.findElement(buttonCloseMessageId).click();
         driver.findElement(xmlRequest).clear();
         cal.add(Calendar.MONTH, +1);
+        date = cal.getTime();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 2,2, unrz));
         driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
+    }
+
+    @Step("Отправка активной переболезни")
+    public Date submitIllActive(WebDriver driver) throws IOException {
+        this.driver = driver;
+        user = getIllnessUser();
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        driver.findElement(xmlRequest).clear();
+        unrz = rnd();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForIll(user, date, unrz));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
+    }
+
+    @Step("Отправка просроченной переболезни")
+    public Date submitIllOverdue(WebDriver driver) throws IOException {
+        this.driver = driver;
+        user = getIllnessUser();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.MONTH, -1);
+        Date date = cal.getTime();
+        driver.findElement(xmlRequest).clear();
+        unrz = rnd();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForIll(user, date, unrz));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
     }
 
     @Step("Получение текста сообщения для вакцины")
@@ -216,6 +272,28 @@ public class SmevPage {
                 "</EPGUvaccDataFromRegister>\n" +
                 "  </EPGULoadFromRegister>\n" +
                 "</RegisterDeliverytoEPGU>";
+        return smevText;
+    }
+
+    @Step("Получение текста сообщения о переболезни")
+    public String getSmevTextForIll(User user, Date date, long urnz){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String smevText = "<ns1:InputData xmlns:ns1=\"https://www.gosuslugi.ru/vaccinecovid19/RegisterCovid/1.0.0\" env=\"UAT\"> " +
+                "<ns1:UNRZ>" + unrz + "</ns1:UNRZ> \n" +
+                "<ns1:FamilyName>" + user.getSurName() +"</ns1:FamilyName> \n" +
+                "<ns1:FirstName>" + user.getFirstName() + "</ns1:FirstName> \n" +
+                "<ns1:Patronymic>" + user.getPatName() + "</ns1:Patronymic> \n" +
+                "<ns1:BirthDate>" + user.getBirthday() + "</ns1:BirthDate> \n" +
+                "<ns1:SNILS>" + user.getSnils() + "</ns1:SNILS> \n" +
+                "<ns1:IdentityDocument> <ns1:DocType>1</ns1:DocType>\n" +
+                "<ns1:DocSer>4123</ns1:DocSer> \n" +
+                "<ns1:DocNum>984579</ns1:DocNum> </ns1:IdentityDocument> \n" +
+                "<ns1:PolicyDocumentType> <ns1:PolicyType>3</ns1:PolicyType> <ns1:PolicyNumber>1217480559645787</ns1:PolicyNumber> </ns1:PolicyDocumentType> <ns1:MkbCode>U07.1</ns1:MkbCode> \n" +
+                "<ns1:MkbName>COVID-19, вирус идентифицирован</ns1:MkbName> \n" +
+                "<ns1:DiseaseOutcomeDate>" + formatter.format(date) + "</ns1:DiseaseOutcomeDate> \n" +
+                "<ns1:RFSubjectCode>16</ns1:RFSubjectCode> \n" +
+                "<ns1:RFSubjectName>Республика Татарстан</ns1:RFSubjectName> <ns1:MOId>1.2.643.5.1.13.13.12.2.16.1208</ns1:MOId> \n" +
+                "<ns1:MOName>ГАУЗ \"Городская поликлиника №3\"</ns1:MOName> </ns1:InputData>";
         return smevText;
     }
 

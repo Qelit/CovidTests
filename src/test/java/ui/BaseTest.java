@@ -25,6 +25,7 @@ public class BaseTest {
     protected String LOGIN_TARANTION = "+79555555009";
     protected String PASS_TARANTINO = "!Qq797979";
     protected String OID_TARANTINO = "3078943604";
+    protected String STATE = "state";
 
     public WebDriver getDriver() { return this.driver;}
 
