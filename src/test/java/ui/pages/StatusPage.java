@@ -20,9 +20,13 @@ public class StatusPage {
     private By status = By.xpath("//span[@id='status']"); //поле со статусом
     private By greenBg = By.xpath("//div[@id='green-bg']"); //зеленая плашка
     private By redBg = By.xpath("//div[@id='red-bg']"); //красная плашка
+    private By admissionContainer = By.xpath("//div[@id='admission-container']");
+    private By admissionStatus = By.xpath("//span[@id='admission-status']");
     private String activeUntil = "Действителен до";
     private String expired = "Срок истёк";
     private String activeSince = "Действителен с";
+    private String empty = "Отсутствует";
+    private String admissionUntil = "Действует до";
 
     public StatusPage(WebDriver driver) { this.driver = driver;}
 
@@ -48,10 +52,26 @@ public class StatusPage {
         Assert.assertTrue(startDate.equals(addYear(vacDateNoTime)));
     }
 
+    @Step("Проверка валидации медотвода")
+    public void getAdmissionStatus(WebDriver driver){
+        this.driver = driver;
+        driver.findElement(admissionContainer);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(admissionStatus, admissionUntil));
+        String statusText = driver.findElement(admissionStatus).getText();
+        Assert.assertTrue(statusText.contains(admissionUntil));
+    }
+
     @Step("Проверка того, что срок сертификата еще не наступил")
     public void getHasNotArriveStatus(WebDriver driver){
         this.driver = driver;
         checkStatus(redBg, activeSince);
+    }
+
+    @Step("Проверка отсутствующего сертификата")
+    public void getEmptyStatus(WebDriver driver){
+        this.driver = driver;
+        checkStatus(redBg, empty);
     }
 
     @Step("Проверка статуса")

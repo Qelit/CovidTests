@@ -47,6 +47,22 @@ public class SmevPage {
         return user;
     }
 
+    @Step("Получение из json файла пользователя для тестирования медотвода")
+    public User getMedotvodUser() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+        user = mapper.readValue(new File("src/test/resources/admissionUser.json"), User.class);
+        return user;
+    }
+
+    @Step("Внесение данных в поля СМЭВ для вакцины")
+    public void subForVaccine(User user, Date date, int vacPhaseNum, int vcPhasesTot, long unrz){
+        driver.findElement(xmlRequest).clear();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+    }
+
     @Step("Отправка активной однофазной вакцины, сделанной месяц назад")
     public Date submitVaccineSinglePhaseActive(WebDriver driver){
         this.driver = driver;
@@ -54,10 +70,7 @@ public class SmevPage {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
         Date date = cal.getTime();
-        driver.findElement(xmlRequest).clear();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
+        subForVaccine(user, date, 1, 1, rnd());
         return date;
     }
 
@@ -66,10 +79,7 @@ public class SmevPage {
         this.driver = driver;
         user = getVaccineUser();
         Date date = new Date();
-        driver.findElement(xmlRequest).clear();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
+        subForVaccine(user, date, 1, 1, rnd());
         return date;
     }
 
@@ -81,10 +91,7 @@ public class SmevPage {
         cal.add(Calendar.MONTH, -1);
         cal.add(Calendar.YEAR, -1);
         Date date = cal.getTime();
-        driver.findElement(xmlRequest).clear();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
+        subForVaccine(user, date, 1, 1, rnd());
         return date;
     }
 
@@ -96,10 +103,7 @@ public class SmevPage {
         cal.add(Calendar.MONTH, -1);
         Date date = cal.getTime();
         long unrz = rnd();
-        driver.findElement(xmlRequest).clear();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,2, unrz));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
+        subForVaccine(user, date, 1, 2, unrz);
         return date;
     }
 
@@ -110,16 +114,10 @@ public class SmevPage {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
         Date date = cal.getTime();
-        driver.findElement(xmlRequest).clear();
         long unrz = rnd();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,2, unrz));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
-        driver.findElement(xmlRequest).clear();
+        subForVaccine(user, date, 1, 2, unrz);
         date = new Date();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 2,2, unrz));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
+        subForVaccine(user, date, 2, 2, unrz);
         return date;
     }
 
@@ -131,17 +129,11 @@ public class SmevPage {
         cal.add(Calendar.YEAR, -1);
         cal.add(Calendar.MONTH, -2);
         Date date = cal.getTime();
-        driver.findElement(xmlRequest).clear();
         long unrz = rnd();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,2, unrz));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
-        driver.findElement(xmlRequest).clear();
+        subForVaccine(user, date, 1, 2, unrz);
         cal.add(Calendar.MONTH, +1);
         date = cal.getTime();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 2,2, unrz));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
+        subForVaccine(user, date, 2, 2, unrz);
         return date;
     }
 
@@ -151,8 +143,8 @@ public class SmevPage {
         user = getIllnessUser();
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        driver.findElement(xmlRequest).clear();
         unrz = rnd();
+        driver.findElement(xmlRequest).clear();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForIll(user, date, unrz));
         driver.findElement(buttonSubmit).click();
         driver.findElement(buttonCloseMessageId).click();
@@ -167,9 +159,23 @@ public class SmevPage {
         cal.add(Calendar.YEAR, -1);
         cal.add(Calendar.MONTH, -1);
         Date date = cal.getTime();
-        driver.findElement(xmlRequest).clear();
         unrz = rnd();
+        driver.findElement(xmlRequest).clear();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForIll(user, date, unrz));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
+    }
+
+    @Step("Отправка актуального медотвода")
+    public Date submitAdmissionActive(WebDriver driver) throws IOException {
+        this.driver = driver;
+        user = getMedotvodUser();
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        unrz = rnd();
+        driver.findElement(xmlRequest).clear();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForAdmission(user, date, unrz));
         driver.findElement(buttonSubmit).click();
         driver.findElement(buttonCloseMessageId).click();
         return date;
@@ -297,11 +303,55 @@ public class SmevPage {
         return smevText;
     }
 
+    @Step("Получение текста об медотводе")
+    public String getSmevTextForAdmission(User user, Date date, long unrz){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String smevText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<tns:RegisterDeliverytoEPGU env=\"EPGU\" xmlns:tns=\"https://www.gosuslugi.ru/vaccinecovid19/RegisterMedotvod/1.0.0\">\n" +
+                "    <tns:UNRZ>" + unrz + "</tns:UNRZ>\n" +
+                "    <tns:LastName>" + user.getSurName() + "</tns:LastName>\n" +
+                "    <tns:FirstName>" + user.getFirstName() + "</tns:FirstName>\n" +
+                "    <tns:Patronymic>" + user.getPatName() + "</tns:Patronymic>\n" +
+                "    <tns:BirthDate>" + user.getBirthday() + "</tns:BirthDate>\n" +
+                "    <tns:SNILS>" + user.getSnils() + "</tns:SNILS>\n" +
+                "    <tns:PersDUL>\n" +
+                "        <tns:Code>1</tns:Code>\n" +
+                "        <tns:Series>0001</tns:Series>\n" +
+                "        <tns:Number>600600</tns:Number>\n" +
+                "    </tns:PersDUL>\n" +
+                "    <tns:PersOMS>\n" +
+                "        <tns:Type>3</tns:Type>\n" +
+                "        <tns:Number>9247174389744329</tns:Number>\n" +
+                "    </tns:PersOMS>\n" +
+                "    <tns:Admission>2</tns:Admission>\n" +
+                "    <tns:AdmissionStartDate>" + formatter.format(date) + "</tns:AdmissionStartDate>\n" +
+                "    <tns:AdmissionEndDate>" + formatter.format(addYear(date)) + "</tns:AdmissionEndDate>\n" +
+                "    <tns:MO>\n" +
+                "        <tns:HostClinicId>1.2.643.5.1.13.13.12.2.50.17944</tns:HostClinicId>\n" +
+                "        <tns:HostClinicName>ГБУЗ МО \"СОЛНЕЧНОГОРСКАЯ ОБЛАСТНАЯ БОЛЬНИЦА\"</tns:HostClinicName>\n" +
+                "        <tns:ClinicRegion>00</tns:ClinicRegion>\n" +
+                "        <tns:ClinicId>1.2.643.5.1.13.13.12.2.50.17944.0.404035</tns:ClinicId>\n" +
+                "        <tns:ClinicName>Тимоновская поликлиника</tns:ClinicName>\n" +
+                "        <tns:ClinicAddress>Солнечногорск-7, ул.Подмосковная, д.7</tns:ClinicAddress>\n" +
+                "        <tns:ClinicPhone>4959943647</tns:ClinicPhone>\n" +
+                "    </tns:MO>\n" +
+                "</tns:RegisterDeliverytoEPGU>\n";
+        return smevText;
+    }
+
     public static long rnd()
     {
         Random random = new Random();
         long i = random.nextLong();
         if (i < 0) i = i * (-1);
         return i/100;
+    }
+
+    public static Date addYear(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.YEAR, 1);
+        return cal.getTime();
     }
 }

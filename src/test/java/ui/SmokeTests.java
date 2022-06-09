@@ -311,4 +311,26 @@ public class SmokeTests extends BaseTest{
         covidPage.checkDateForVaccine(driver, illDate);
         setDown(driver);
     }
+
+    @Test
+    @Description("Проверка медотвода для пользователя с отствующим сертификатом")
+    public void admissionForNoCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatus(driver);
+        statusPage.getEmptyStatus(driver);
+        setDown(driver);
+    }
 }

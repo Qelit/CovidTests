@@ -190,6 +190,13 @@ public class Sql {
         else logger.info("Не найдены подходящие записи для удаления");
     }
 
+    public void deleteAdmissionForOid(ConnectionStands connectionStands, String oid) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        int upd = statement.executeUpdate("delete from admission where oid =  " + oid);
+        // Закрытие соединения
+        connection.close();
+    }
+
     @Step("Удаление из бд covid_status_cert, vc_user и vc_cert полей по oid")
     public void prepareForTestVaccine(ConnectionStands connectionStands, String oid) throws SQLException {
         Statement statement = getConnection(connectionStands);
@@ -199,9 +206,16 @@ public class Sql {
         connection.close();
     }
 
+    @Step("Удаление записей из бд covid_register_record и covid_status_cert")
     public void prepareForTestIllness(ConnectionStands connectionStands, String oid) throws SQLException {
         deleteCovidRegisterRecordForOid(connectionStands, oid);
         deleteCovidStatusCertForOid(connectionStands, oid);
+    }
+
+    @Step("Подготовка к тестированию медотводов")
+    public void prepareForTestAdmission(ConnectionStands connectionStands, String oid) throws SQLException {
+        deleteCovidStatusCertForOid(connectionStands, oid);
+        deleteAdmissionForOid(connectionStands, oid);
     }
 
     @Step("Получение подключения по стенду")
