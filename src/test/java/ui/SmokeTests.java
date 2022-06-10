@@ -10,7 +10,6 @@ import ui.sql.Sql;
 import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class SmokeTests extends BaseTest{
@@ -101,7 +100,7 @@ public class SmokeTests extends BaseTest{
         mainPage = mainPage.getMainPage(URL_UAT);
         CovidPage covidPage = mainPage.getCovidPage(driver);
         StatusPage statusPage = covidPage.getQRUrl(driver);
-        statusPage.getHasNotArriveStatus(driver);
+        statusPage.getNotArrivedStatus(driver);
         setDown(driver);
         sql.checkInVcUser(ConnectionStands.UAT, OID_TARANTINO, STATE, 1);
         sql.checkInVcCert(ConnectionStands.UAT, OID_TARANTINO, 1);
@@ -125,7 +124,7 @@ public class SmokeTests extends BaseTest{
         mainPage = mainPage.getMainPage(URL_UAT);
         CovidPage covidPage = mainPage.getCovidPage(driver);
         StatusPage statusPage = covidPage.getQRUrl(driver);
-        statusPage.getNegativeStatus(driver);
+        statusPage.getOverdueStatus(driver);
         setDown(driver);
         sql.checkInVcUser(ConnectionStands.UAT, OID_TARANTINO, STATE, 1);
         sql.checkInVcCert(ConnectionStands.UAT, OID_TARANTINO, 1);
@@ -173,7 +172,7 @@ public class SmokeTests extends BaseTest{
         mainPage = mainPage.getMainPage(URL_UAT);
         CovidPage covidPage = mainPage.getCovidPage(driver);
         StatusPage statusPage = covidPage.getQRUrl(driver);
-        statusPage.getNegativeStatus(driver);
+        statusPage.getOverdueStatus(driver);
         setDown(driver);
         sql.checkInVcUser(ConnectionStands.UAT, OID_TARANTINO, STATE, 2);
         sql.checkInVcCert(ConnectionStands.UAT, OID_TARANTINO, 1);
@@ -199,7 +198,7 @@ public class SmokeTests extends BaseTest{
         CovidPage covidPage = mainPage.getCovidPage(driver);
         String date = covidPage.checkDateOverdueCert(driver);
         StatusPage statusPage = covidPage.getQRUrl(driver);
-        statusPage.getNegativeStatus(driver, date, vacDate);
+        statusPage.getOverdueStatus(driver, date, vacDate);
         setDown(driver);
     }
 
@@ -285,7 +284,7 @@ public class SmokeTests extends BaseTest{
         mainPage = mainPage.getMainPage(URL_UAT);
         CovidPage covidPage = mainPage.getCovidPage(driver);
         StatusPage statusPage = covidPage.getQRUrl(driver);
-        statusPage.getNegativeStatus(driver);
+        statusPage.getOverdueStatus(driver);
         setDown(driver);
         sql.checkInCovidRegisterRecord(ConnectionStands.UAT, OID_TARANTINO, 1);
         sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
@@ -313,10 +312,11 @@ public class SmokeTests extends BaseTest{
     }
 
     @Test
-    @Description("Проверка медотвода для пользователя с отствующим сертификатом")
+    @Description("Создание срочного медотвода для пользователя с отсутствующим сертификатом")
     public void admissionForNoCert() throws SQLException, IOException {
         Sql sql = new Sql();
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
         smevPage.submitAdmissionActive(driver);
@@ -329,8 +329,207 @@ public class SmokeTests extends BaseTest{
         mainPage = mainPage.getMainPage(URL_UAT);
         CovidPage covidPage = mainPage.getCovidPage(driver);
         StatusPage statusPage = covidPage.getQRUrl(driver);
-        statusPage.getAdmissionStatus(driver);
+        statusPage.getAdmissionStatusUntil(driver);
         statusPage.getEmptyStatus(driver);
         setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
+    }
+
+    @Test
+    @Description(value = "Создание бессрочного медотвода для пользователей с отсутствующим сертификатом")
+    public void admissionInfinityForNoCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatusInfinity(driver);
+        statusPage.getEmptyStatus(driver);
+        setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
+    }
+
+    @Test
+    @Description(value = "Создание бессрочного медотвода для пользователя с активным сертификатом по вакцине")
+    public void admissionInfinityForActiveCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseActive(driver);
+        smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatusInfinity(driver);
+        statusPage.getActiveStatus(driver);
+        setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
+    }
+
+    @Test
+    @Description(value = "Создание бессрочного медотвода для пользователя с просроченным сертификатом по вакцине")
+    public void admissionInfinityForOverdueCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseOverdue(driver);
+        smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatusInfinity(driver);
+        statusPage.getOverdueStatus(driver);
+        setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
+    }
+
+    @Test
+    @Description(value = "Создание бессрочного медотвода для пользователя с не наступившим сертификатом по вакцине")
+    public void admissionInfinityForNotArrivedCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseHasNotArrived(driver);
+        smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatusInfinity(driver);
+        statusPage.getNotArrivedStatus(driver);
+        setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
+    }
+
+    @Test
+    @Description(value = "Создание срочного медотвода для пользователя с активным сертификатом по вакцине")
+    public void admissionForActiveCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseActive(driver);
+        smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatusUntil(driver);
+        statusPage.getActiveStatus(driver);
+        setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
+    }
+
+    @Test
+    @Description(value = "Создание срочного медотвода для пользователя с просроченным сертификатом по вакцине")
+    public void admissionForOverdueCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseOverdue(driver);
+        smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatusUntil(driver);
+        statusPage.getOverdueStatus(driver);
+        setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
+    }
+
+    @Test
+    @Description(value = "Создание срочного медотвода для пользователя с не наступившим сертификатом по вакцине")
+    public void admissionForNotArrivedCert() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseHasNotArrived(driver);
+        smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getAdmissionStatusUntil(driver);
+        statusPage.getNotArrivedStatus(driver);
+        setDown(driver);
+        sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInCovidStatusCert(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 1);
+        sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 1);
     }
 }

@@ -17,16 +17,17 @@ import java.util.Date;
 public class StatusPage {
 
     private WebDriver driver;
-    private By status = By.xpath("//span[@id='status']"); //поле со статусом
-    private By greenBg = By.xpath("//div[@id='green-bg']"); //зеленая плашка
-    private By redBg = By.xpath("//div[@id='red-bg']"); //красная плашка
-    private By admissionContainer = By.xpath("//div[@id='admission-container']");
-    private By admissionStatus = By.xpath("//span[@id='admission-status']");
-    private String activeUntil = "Действителен до";
-    private String expired = "Срок истёк";
-    private String activeSince = "Действителен с";
-    private String empty = "Отсутствует";
-    private String admissionUntil = "Действует до";
+    private final By status = By.xpath("//span[@id='status']"); //поле со статусом
+    private final By greenBg = By.xpath("//div[@id='green-bg']"); //зеленая плашка
+    private final By redBg = By.xpath("//div[@id='red-bg']"); //красная плашка
+    private final By admissionContainer = By.xpath("//div[@id='admission-container']");
+    private final By admissionStatus = By.xpath("//span[@id='admission-status']");
+    private final String activeUntil = "Действителен до";
+    private final String expired = "Срок истёк";
+    private final String activeSince = "Действителен с";
+    private final String empty = "Отсутствует";
+    private final String admissionUntil = "Действует до";
+    private final String admissionInfinity = "Действует бессрочно";
 
     public StatusPage(WebDriver driver) { this.driver = driver;}
 
@@ -37,13 +38,13 @@ public class StatusPage {
     }
 
     @Step("Проверка истечения срока сертификата")
-    public void getNegativeStatus(WebDriver driver){
+    public void getOverdueStatus(WebDriver driver){
         this.driver = driver;
         checkStatus(redBg, expired);
     }
 
     @Step("Проверка истечения срока сертификата и даты истечения сертификата")
-    public void getNegativeStatus(WebDriver driver, String date, Date vacDate) throws ParseException {
+    public void getOverdueStatus(WebDriver driver, String date, Date vacDate) throws ParseException {
         this.driver = driver;
         String statusText = checkStatus(redBg, expired);
         Date startDate = checkDateForVaccine(statusText,date);
@@ -52,18 +53,20 @@ public class StatusPage {
         Assert.assertTrue(startDate.equals(addYear(vacDateNoTime)));
     }
 
-    @Step("Проверка валидации медотвода")
-    public void getAdmissionStatus(WebDriver driver){
+    @Step("Проверка валидации медотвода до срока")
+    public void getAdmissionStatusUntil(WebDriver driver){
         this.driver = driver;
-        driver.findElement(admissionContainer);
-        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(admissionStatus, admissionUntil));
-        String statusText = driver.findElement(admissionStatus).getText();
-        Assert.assertTrue(statusText.contains(admissionUntil));
+        checkAdmissionStatus(admissionContainer, admissionUntil);
+    }
+
+    @Step("Проверка валидации бессрочного медотвода")
+    public void getAdmissionStatusInfinity(WebDriver driver){
+        this.driver = driver;
+        checkAdmissionStatus(admissionContainer, admissionInfinity);
     }
 
     @Step("Проверка того, что срок сертификата еще не наступил")
-    public void getHasNotArriveStatus(WebDriver driver){
+    public void getNotArrivedStatus(WebDriver driver){
         this.driver = driver;
         checkStatus(redBg, activeSince);
     }
@@ -75,11 +78,21 @@ public class StatusPage {
     }
 
     @Step("Проверка статуса")
-    public String checkStatus(By colorBg, String checkText){
+    private String checkStatus(By colorBg, String checkText){
         driver.findElement(colorBg).isDisplayed();
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(status, checkText));
         String statusText = driver.findElement(status).getText();
+        Assert.assertTrue(statusText.contains(checkText));
+        return statusText;
+    }
+
+    @Step("Проверка статуса медотвода")
+    private String checkAdmissionStatus(By container, String checkText){
+        driver.findElement(container);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(admissionStatus, checkText));
+        String statusText = driver.findElement(admissionStatus).getText();
         Assert.assertTrue(statusText.contains(checkText));
         return statusText;
     }
@@ -97,7 +110,7 @@ public class StatusPage {
         return covidDate;
     }
 
-    public static Date addYear(Date date)
+    private static Date addYear(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

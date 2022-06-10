@@ -28,7 +28,7 @@ public class SmevPage {
     public SmevPage(WebDriver driver) {this.driver = driver;}
 
     @Step("Получение из json файла пользователя для тестирования вакцины")
-    public User getVaccineUser(){
+    private User getVaccineUser(){
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
@@ -40,7 +40,7 @@ public class SmevPage {
     }
 
     @Step("Получение из json файла пользователя для тестирования вакцины")
-    public User getIllnessUser() throws IOException {
+    private User getIllnessUser() throws IOException {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
             user = mapper.readValue(new File("src/test/resources/illnessUser.json"), User.class);
@@ -48,7 +48,7 @@ public class SmevPage {
     }
 
     @Step("Получение из json файла пользователя для тестирования медотвода")
-    public User getMedotvodUser() throws IOException {
+    private User getAdmissionUser() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
         user = mapper.readValue(new File("src/test/resources/admissionUser.json"), User.class);
@@ -56,9 +56,17 @@ public class SmevPage {
     }
 
     @Step("Внесение данных в поля СМЭВ для вакцины")
-    public void subForVaccine(User user, Date date, int vacPhaseNum, int vcPhasesTot, long unrz){
+    private void subForVaccine(User user, Date date, int vacPhaseNum, int vcPhasesTot, long unrz){
         driver.findElement(xmlRequest).clear();
         driver.findElement(xmlRequest).sendKeys(getSmevTextForVaccine(user, date, 1,1, rnd()));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+    }
+
+    @Step("Внесение данных в поля СМЭВ для медотвода")
+    private void subForAdmission(User user, Date date, long unrz, int type){
+        driver.findElement(xmlRequest).clear();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForAdmission(user, date, unrz, type));
         driver.findElement(buttonSubmit).click();
         driver.findElement(buttonCloseMessageId).click();
     }
@@ -170,19 +178,26 @@ public class SmevPage {
     @Step("Отправка актуального медотвода")
     public Date submitAdmissionActive(WebDriver driver) throws IOException {
         this.driver = driver;
-        user = getMedotvodUser();
+        user = getAdmissionUser();
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
         unrz = rnd();
-        driver.findElement(xmlRequest).clear();
-        driver.findElement(xmlRequest).sendKeys(getSmevTextForAdmission(user, date, unrz));
-        driver.findElement(buttonSubmit).click();
-        driver.findElement(buttonCloseMessageId).click();
+        subForAdmission(user, date, unrz, 2);
+        return date;
+    }
+
+    public Date submitAdmissionInfinite(WebDriver driver) throws IOException {
+        this.driver = driver;
+        user = getAdmissionUser();
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        unrz = rnd();
+        subForAdmission(user, date, unrz, 3);
         return date;
     }
 
     @Step("Получение текста сообщения для вакцины")
-    public String getSmevTextForVaccine(User user, Date date, int vacPhaseNum, int vcPhasesTot, long unrz){
+    private String getSmevTextForVaccine(User user, Date date, int vacPhaseNum, int vcPhasesTot, long unrz){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String smevText = "<RegisterDeliverytoEPGU xmlns=\"https://www.gosuslugi.ru/vaccinecovid19/RegisterToEpgu/1.3.0\" env=\"EPGU\">\n" +
                 "  <EPGULoadFromRegister>\n" +
@@ -282,7 +297,7 @@ public class SmevPage {
     }
 
     @Step("Получение текста сообщения о переболезни")
-    public String getSmevTextForIll(User user, Date date, long urnz){
+    private String getSmevTextForIll(User user, Date date, long urnz){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String smevText = "<ns1:InputData xmlns:ns1=\"https://www.gosuslugi.ru/vaccinecovid19/RegisterCovid/1.0.0\" env=\"UAT\"> " +
                 "<ns1:UNRZ>" + unrz + "</ns1:UNRZ> \n" +
@@ -304,8 +319,11 @@ public class SmevPage {
     }
 
     @Step("Получение текста об медотводе")
-    public String getSmevTextForAdmission(User user, Date date, long unrz){
+    private String getSmevTextForAdmission(User user, Date date, long unrz, int type){
+        String endDate = "";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        if (type == 2)
+            endDate = formatter.format(addYear(date));
         String smevText = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<tns:RegisterDeliverytoEPGU env=\"EPGU\" xmlns:tns=\"https://www.gosuslugi.ru/vaccinecovid19/RegisterMedotvod/1.0.0\">\n" +
                 "    <tns:UNRZ>" + unrz + "</tns:UNRZ>\n" +
@@ -320,12 +338,12 @@ public class SmevPage {
                 "        <tns:Number>600600</tns:Number>\n" +
                 "    </tns:PersDUL>\n" +
                 "    <tns:PersOMS>\n" +
-                "        <tns:Type>3</tns:Type>\n" +
+                "        <tns:Type>" + type +"</tns:Type>\n" +
                 "        <tns:Number>9247174389744329</tns:Number>\n" +
                 "    </tns:PersOMS>\n" +
                 "    <tns:Admission>2</tns:Admission>\n" +
                 "    <tns:AdmissionStartDate>" + formatter.format(date) + "</tns:AdmissionStartDate>\n" +
-                "    <tns:AdmissionEndDate>" + formatter.format(addYear(date)) + "</tns:AdmissionEndDate>\n" +
+                "    <tns:AdmissionEndDate>" + endDate + "</tns:AdmissionEndDate>\n" +
                 "    <tns:MO>\n" +
                 "        <tns:HostClinicId>1.2.643.5.1.13.13.12.2.50.17944</tns:HostClinicId>\n" +
                 "        <tns:HostClinicName>ГБУЗ МО \"СОЛНЕЧНОГОРСКАЯ ОБЛАСТНАЯ БОЛЬНИЦА\"</tns:HostClinicName>\n" +
@@ -339,7 +357,7 @@ public class SmevPage {
         return smevText;
     }
 
-    public static long rnd()
+    private static long rnd()
     {
         Random random = new Random();
         long i = random.nextLong();
@@ -347,7 +365,7 @@ public class SmevPage {
         return i/100;
     }
 
-    public static Date addYear(Date date)
+    private static Date addYear(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

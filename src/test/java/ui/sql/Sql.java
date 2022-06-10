@@ -62,14 +62,34 @@ public class Sql {
         connection.close();
     }
 
-    @Step
-    public void checkTable(ResultSet rs, int count) throws SQLException {
+    @Step("Проверка количества строк выдаваемых при запросе")
+    private void checkTable(ResultSet rs, int count) throws SQLException {
         int rowCount = 0;
         if(rs!=null) {
             rs.last();
             rowCount = rs.getRow();
         }
         Assert.assertTrue(rowCount == count);
+    }
+
+    @Step("Проверка записей в бд admission")
+    public void checkInAdmission(ConnectionStands connectionStands, String oid, int count) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select * from admission where oid = '"+ oid +"';");
+        checkTable(rs, count);
+    }
+
+    @Step("Проверка записей в бд admission_request")
+    public void checkInAdmissionRequest(ConnectionStands connectionStands, String oid, int count) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select * from admission_request where user_id = '"+ oid +"';");
+        checkTable(rs, count);
+    }
+
+    public void checkInAdmissionResponse(ConnectionStands connectionStands, String oid, int count) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select * from admission_response where oid = '"+ oid +"';");
+        checkTable(rs, count);
     }
 
     @Step("Проверка количества строк в таблице vc_cert")
@@ -98,7 +118,7 @@ public class Sql {
 
 
     @Step("Проверка наличия значения {verifiable} в названном столбце {columnName}")
-    public int checkTable(ResultSet rs, String columnName, String verifiable) throws SQLException {
+    private int checkTable(ResultSet rs, String columnName, String verifiable) throws SQLException {
         ArrayList<String> result = new ArrayList<>();
         // Перебор строк с данными
         while(rs.next()){
@@ -190,12 +210,30 @@ public class Sql {
         else logger.info("Не найдены подходящие записи для удаления");
     }
 
+    @Step("Удаление записи из бд admission по oid")
     public void deleteAdmissionForOid(ConnectionStands connectionStands, String oid) throws SQLException {
         Statement statement = getConnection(connectionStands);
         int upd = statement.executeUpdate("delete from admission where oid =  " + oid);
         // Закрытие соединения
         connection.close();
     }
+
+    @Step("Удаление записи из бд admission_request по oid")
+    public void deleteAdmissionRequestForOid(ConnectionStands connectionStands, String oid) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        int upd = statement.executeUpdate("delete from admission_request where user_id = " + oid);
+        // Закрытие соединения
+        connection.close();
+    }
+
+    @Step("Удаление записи из бд admission_response по oid")
+    public void deleteAdmissionResponseForOid(ConnectionStands connectionStands, String oid) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        int upd = statement.executeUpdate("delete from admission_response where oid = " + oid);
+        // Закрытие соединения
+        connection.close();
+    }
+
 
     @Step("Удаление из бд covid_status_cert, vc_user и vc_cert полей по oid")
     public void prepareForTestVaccine(ConnectionStands connectionStands, String oid) throws SQLException {
@@ -216,10 +254,12 @@ public class Sql {
     public void prepareForTestAdmission(ConnectionStands connectionStands, String oid) throws SQLException {
         deleteCovidStatusCertForOid(connectionStands, oid);
         deleteAdmissionForOid(connectionStands, oid);
+        deleteAdmissionResponseForOid(connectionStands, oid);
+        deleteAdmissionRequestForOid(connectionStands, oid);
     }
 
     @Step("Получение подключения по стенду")
-    public Statement getConnection(ConnectionStands connectionStands) throws SQLException {
+    private Statement getConnection(ConnectionStands connectionStands) throws SQLException {
         switch(connectionStands) {
             case UAT:
                 connection = DriverManager.getConnection(uat_url, uat_login, uat_password);

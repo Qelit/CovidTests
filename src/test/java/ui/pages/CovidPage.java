@@ -71,7 +71,7 @@ public class CovidPage {
         return date;
     }
 
-    public static Date addYear(Date date)
+    private static Date addYear(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
