@@ -59,6 +59,16 @@ public class StatusPage {
         checkAdmissionStatus(admissionContainer, admissionUntil);
     }
 
+    @Step("Проверка валидации медотвода до срока и проверка срока")
+    public void getAdmissionStatusUntil(WebDriver driver, Date date) throws ParseException {
+        this.driver = driver;
+        String statusText = checkAdmissionStatus(admissionContainer, admissionUntil);
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Date endDate = checkDateForVaccine(statusText, formatter.format(addYear(date)));
+        Date vacDateNoTime = formatter.parse(formatter.format(date));
+        Assert.assertTrue(endDate.equals(addYear(vacDateNoTime)));
+    }
+
     @Step("Проверка валидации бессрочного медотвода")
     public void getAdmissionStatusInfinity(WebDriver driver){
         this.driver = driver;

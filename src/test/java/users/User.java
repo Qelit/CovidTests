@@ -20,6 +20,10 @@ public class User {
     String birthday;
     @JsonProperty("oid")
     String oid;
+    @JsonProperty("number")
+    String number;
+    @JsonProperty("series")
+    String series;
 
     @JsonProperty("surName")
     public String getSurName(){
@@ -73,6 +77,22 @@ public class User {
     @JsonProperty("oid")
     public void setOid(String oid) {
         this.oid = oid;
+    }
+
+    @JsonProperty("number")
+    public String getNumber(){return number; }
+
+    @JsonProperty("number")
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    @JsonProperty("series")
+    public String getSeries(){return series; }
+
+    @JsonProperty("series")
+    public void setSeries(String series) {
+        this.series = series;
     }
 
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();

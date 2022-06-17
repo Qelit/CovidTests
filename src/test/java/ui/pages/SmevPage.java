@@ -176,6 +176,18 @@ public class SmevPage {
     }
 
     @Step("Отправка актуального медотвода")
+    public Date submitAdmissionEarly(WebDriver driver) throws IOException {
+        this.driver = driver;
+        user = getAdmissionUser();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        Date date = cal.getTime();
+        unrz = rnd();
+        subForAdmission(user, date, unrz, 2);
+        return date;
+    }
+
+    @Step("Отправка медотвода раньше текущей даты")
     public Date submitAdmissionActive(WebDriver driver) throws IOException {
         this.driver = driver;
         user = getAdmissionUser();

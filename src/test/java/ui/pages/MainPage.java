@@ -32,4 +32,19 @@ public class MainPage {
         driver.get(url + "10602/1");
         return new CovidPage(driver);
     }
+
+    @Step("Открыть страницу с АМР МФЦ")
+    public MfcPage getMfcPage(WebDriver driver){
+        this.driver = driver;
+        String url = driver.getCurrentUrl();
+        driver.get(url + "covid-status");
+        return new MfcPage(driver);
+    }
+
+    @Step("Открыть страницу с ЭЛН")
+    public ElnPage getElnPage(WebDriver driver){
+        this.driver = driver;
+        driver.get("https://eln-uat.test.gosuslugi.ru/");
+        return new ElnPage(driver);
+    }
 }

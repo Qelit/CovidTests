@@ -199,6 +199,14 @@ public class Sql {
         else logger.info("Не найдены подходящие записи для удаления");
     }
 
+    @Step("Удаление записи из бд mfc_request по фамилии")
+    public void deleteMfcRequestForLastName(ConnectionStands connectionStands, String lastName) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        int upd = statement.executeUpdate("delete from mfc_request where last_name like '" + lastName + "';");
+        // Закрытие соединения
+        connection.close();
+    }
+
     @Step("удаляет записи из бд covid_status_cert по oid")
     public void deleteCovidStatusCertForOid(ConnectionStands connectionStands, String oid) throws SQLException {
         Statement statement = getConnection(connectionStands);

@@ -2,11 +2,15 @@ package ui;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Step;
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +29,15 @@ public class BaseTest {
     protected String LOGIN_TARANTION = "+79555555009";
     protected String PASS_TARANTINO = "!Qq797979";
     protected String OID_TARANTINO = "3078943604";
+    protected String LASTNAME_TARANTINO = "Тарантино";
     protected String STATE = "state";
+    protected String LOGIN_MFC = "23215867656";
+    protected String PASS_MFC = "12345!";
+    protected final String MFC_UAT = "https://pgu-uat-fed.test.gosuslugi.ru/covid-status";
+    protected final String LOGIN_ELN = "30251471216";
+    protected final String PASS_ELN = "111";
+    protected final String ELN_UAT = "https://eln-uat.test.gosuslugi.ru/";
+    protected final String ELN_NUMBER = "900000667326";
 
     public WebDriver getDriver() { return this.driver;}
 
@@ -44,9 +56,17 @@ public class BaseTest {
         return driver;
     }
 
+
     @Step("Закрытие браузера")
     public void setDown(WebDriver driver){
         if (driver != null){
+            driver.quit();
+        }
+    }
+
+    @After()
+    public void tearDown() {
+        if (driver != null) {
             driver.quit();
         }
     }

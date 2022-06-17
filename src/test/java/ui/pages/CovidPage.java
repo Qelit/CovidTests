@@ -23,6 +23,7 @@ public class CovidPage {
     private WebDriver driver;
     private final By qr = By.xpath("//img[@class='qr-image']"); // qr код
     private final By emptyQr = By.xpath("//div[@class='text-center text-left-lg']"); // надпись рядом с qr
+    private final By admDates = By.xpath("//div[@class='mt-8 text-plain gray small-text text-center text-left-lg']");
 
     public CovidPage(WebDriver driver){
         this.driver = driver;
@@ -68,6 +69,21 @@ public class CovidPage {
         Date covidDate = format.parse(emQr);
         Date date = format.parse(format.format(vacDate));
         Assert.assertTrue(covidDate.equals(addYear(date)));
+        return date;
+    }
+
+    @Step("Проверка даты начала медотвода")
+    public Date checkDateForAdmission(WebDriver driver, Date admDate) throws ParseException {
+        this.driver = driver;
+        driver.findElement(admDates).isDisplayed();
+        String emQr = driver.findElement(admDates).getText();
+        int index = emQr.lastIndexOf("с");
+        int to = emQr.lastIndexOf("до");
+        emQr = emQr.substring(index + 1, to - 1);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy");
+        Date covidDate = format.parse(emQr);
+        Date date = format.parse(format.format(admDate));
+        Assert.assertTrue(covidDate.equals(date));
         return date;
     }
 
