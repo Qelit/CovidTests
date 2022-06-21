@@ -16,8 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.codeborne.selenide.Selenide.executeJavaScript;
-
 public class MfcPage {
     private WebDriver driver;
     private User user;
@@ -61,11 +59,23 @@ public class MfcPage {
     public MfcPage(WebDriver driver) {this.driver = driver;}
 
     @Step("Получение из json файла пользователя для тестирования вакцины")
-    private User getVaccineUser(){
+    private User getVaccineUser()  {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
             user = mapper.readValue(new File("src/test/resources/vaccineUser.json"), User.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Step("Получение из json файла пользователя для тестирования медотвода")
+    private User getAdmissionUser()  {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+        try {
+            user = mapper.readValue(new File("src/test/resources/admissionUser.json"), User.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,6 +93,18 @@ public class MfcPage {
     public MfcInformationPage getActiveVaccineCert(WebDriver driver) throws ParseException {
         this.driver = driver;
         User user = getVaccineUser();
+        return getActiveCert(user);
+    }
+
+    @Step("Получение сертификата по медотводу")
+    public MfcInformationPage getActiveAdmissionCert(WebDriver driver) throws ParseException {
+        this.driver = driver;
+        User user = getAdmissionUser();
+        return getActiveCert(user);
+    }
+
+    @Step("Ввод данных в поля МФЦ")
+    private MfcInformationPage getActiveCert(User user) throws ParseException {
         driver.findElement(lastName).sendKeys(user.getSurName());
         driver.findElement(firstName).sendKeys(user.getFirstName());
         driver.findElement(middleName).sendKeys(user.getPatName());
@@ -93,7 +115,6 @@ public class MfcPage {
         for (int i = 0; i < 8; i++) {
             driver.findElement(birthDate).sendKeys(Keys.BACK_SPACE);
         }
-        //((JavascriptExecutor)driver).executeScript("arguments[0].value=arguments[1]", driver.findElement(birthDate), 01-01-2012);
         driver.findElement(birthDate).sendKeys(formatter.format(date));
         driver.findElement(radioButtonMale).click();
         driver.findElement(number).sendKeys(user.getNumber());

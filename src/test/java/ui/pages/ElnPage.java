@@ -13,17 +13,17 @@ import java.util.Date;
 
 public class ElnPage {
     private WebDriver driver;
-    private final By forNumberEln = By.xpath("//input[@id='app-radio-1']");
-    private final By forPeriod = By.xpath("//input[@id='app-radio-2']");
-    private final By elnNumber = By.xpath("//input[@name='numberEln']");
-    private final By elnPeriod = By.xpath("//lib-dropdown[@name='dateEln']");
-    private final By month1 = By.xpath("//div[@itemid='1month']");
-    private final By monthes3 = By.xpath("//div[@itemid='3months']");
-    private final By monthes6 = By.xpath("//div[@itemid='6months']");
-    private final By selectPeriod = By.xpath("//div[@itemid='custom']");
-    private final By buttonGetInfo = By.xpath("//button[@type='button']");
-    private final By dateFromPeriod = By.xpath("//input[@name = 'dateFrom']");
-    private final By dateToPeriod = By.xpath("//input[@name = 'dateTo']");
+    private final By forNumberEln = By.xpath("//input[@id='app-radio-1']"); //По номеру ЭЛН радио баттон
+    private final By forPeriod = By.xpath("//input[@id='app-radio-2']"); //За период радио баттон
+    private final By elnNumber = By.xpath("//input[@name='numberEln']"); //Номер элн
+    private final By elnPeriod = By.xpath("//lib-dropdown[@name='dateEln']"); //Лист с периодом
+    private final By month1 = By.xpath("//div[@itemid='1month']"); //1 месяц
+    private final By monthes3 = By.xpath("//div[@itemid='3months']"); //3 месяца
+    private final By monthes6 = By.xpath("//div[@itemid='6months']"); //6 месяцев
+    private final By selectPeriod = By.xpath("//div[@itemid='custom']"); //Выбрать период
+    private final By buttonGetInfo = By.xpath("//button[@type='button']"); //Кнопка получения результата
+    private final By dateFromPeriod = By.xpath("//input[@name = 'dateFrom']"); // Период с
+    private final By dateToPeriod = By.xpath("//input[@name = 'dateTo']"); // Период по
 
     public ElnPage(WebDriver driver) {this.driver = driver;}
 
@@ -62,12 +62,15 @@ public class ElnPage {
     }
 
     public ElnResultPage getElnForNewPeriod(WebDriver driver){
+        this.driver = driver;
         Date dateFrom = new Date();
         Date dateTo = new Date();
         return getElnForSelectPeriod(dateFrom, dateTo);
     }
 
     private ElnResultPage getElnForSelectPeriod(Date dateFrom, Date dateTo){
+        Wait<WebDriver> wait = new WebDriverWait(driver, 20, 5000);
+        wait.until(ExpectedConditions.elementToBeClickable(elnPeriod));
         driver.findElement(elnPeriod).click();
         driver.findElement(selectPeriod).click();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
@@ -81,7 +84,6 @@ public class ElnPage {
         }
         driver.findElement(dateToPeriod).sendKeys(formatter.format(dateTo));
         driver.findElement(forPeriod).click();
-        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.elementToBeClickable(buttonGetInfo));
         driver.findElement(buttonGetInfo).click();
         return new ElnResultPage(driver);

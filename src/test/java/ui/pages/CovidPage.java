@@ -24,6 +24,7 @@ public class CovidPage {
     private final By qr = By.xpath("//img[@class='qr-image']"); // qr код
     private final By emptyQr = By.xpath("//div[@class='text-center text-left-lg']"); // надпись рядом с qr
     private final By admDates = By.xpath("//div[@class='mt-8 text-plain gray small-text text-center text-left-lg']");
+    private final By antibodiesTab = By.xpath("//span[text()='Антитела']");
 
     public CovidPage(WebDriver driver){
         this.driver = driver;
@@ -38,6 +39,13 @@ public class CovidPage {
         String qrUrl = qrCodeReader.readQRCode(urlQr);
         driver.get(qrUrl);
         return new StatusPage(driver);
+    }
+
+    @Step("Переход на вкладку Антитела")
+    public AntibodiesPage getAntibodiesPage(WebDriver driver){
+        this.driver = driver;
+        driver.findElement(antibodiesTab).click();
+        return new AntibodiesPage(driver);
     }
 
     @Step("Проверка отсутствия qr кода на странице")

@@ -30,6 +30,7 @@ public class BaseTest {
     protected String PASS_TARANTINO = "!Qq797979";
     protected String OID_TARANTINO = "3078943604";
     protected String LASTNAME_TARANTINO = "Тарантино";
+    protected String SNILS_TARANTINO = "00060060048";
     protected String STATE = "state";
     protected String LOGIN_MFC = "23215867656";
     protected String PASS_MFC = "12345!";
@@ -38,6 +39,7 @@ public class BaseTest {
     protected final String PASS_ELN = "111";
     protected final String ELN_UAT = "https://eln-uat.test.gosuslugi.ru/";
     protected final String ELN_NUMBER = "900000667326";
+    protected final String URL_UAT_FEDLKAPINLB = "http://pgu-uat-fedlkapinlb.test.gosuslugi.ru";
 
     public WebDriver getDriver() { return this.driver;}
 

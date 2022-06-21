@@ -1,5 +1,6 @@
 package ui;
 
+import api.TestAssured;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import org.junit.After;
@@ -626,7 +627,7 @@ public class SmokeTests extends BaseTest{
 
     @Test
     @Feature(value = "МФЦ")
-    @Description("Проверка получения сертификата МФЦ")
+    @Description("Получение сертификата МФЦ для пользователя с активной вакциной")
     public void mfcVaccineActive() throws SQLException, IOException, ParseException {
         Sql sql = new Sql();
         sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
@@ -647,6 +648,235 @@ public class SmokeTests extends BaseTest{
         mfcPage.enterEmployer(driver);
         MfcInformationPage mfcInformationPage = mfcPage.getActiveVaccineCert(driver);
         mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание бессрочного медотвода для пользователя, у которого нет общего сертификата МФЦ")
+    public void mfcAdmissionInfinity() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        Date date = smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание срочного медотвода для пользователя, у которого нет сертификат активен. МФЦ")
+    public void mfcAdmissionInfiniteForActiveCert() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineTwoPhaseActive(driver);
+        Date date = smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание бессрочного медотвода для пользователя, у которого сертификат пророчен. МФЦ")
+    public void mfcAdmissionInfiniteForOverdueCert() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseOverdue(driver);
+        Date date = smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание бессрочного медотвода для пользователя, у которого сертификат не наступил. МФЦ")
+    public void mfcAdmissionInfiniteForOverdueCertNotArrived() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseHasNotArrived(driver);
+        Date date = smevPage.submitAdmissionInfinite(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание срочного медотвода для пользователя, у которого сертификат активен. МФЦ")
+    public void mfcAdmissionActiveForActiveCert() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineTwoPhaseActive(driver);
+        Date date = smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание срочного медотвода для пользователя, у которого сертификат просрочен. МФЦ")
+    public void mfcAdmissionActiveForOverdueCert() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseOverdue(driver);
+        Date date = smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание срочного медотвода для пользователя, у которого сертификат не наступил. МФЦ")
+    public void mfcAdmissionActiveForNotArrivedCert() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitVaccineSinglePhaseHasNotArrived(driver);
+        Date date = smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Создание срочного медотвода для пользователя, у которого сертификат отсутствует. МФЦ")
+    public void mfcAdmissionActive() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        Date date = smevPage.submitAdmissionActive(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getTrueStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "МФЦ")
+    @Description("Поиск по пользоватлю не имеющему сертификатов. МФЦ")
+    public void mfcHaveNotCert() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(URL_UAT);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
+        mfcInformationPage.getFalseStatusPerson(driver);
     }
 
     @Test
@@ -711,5 +941,222 @@ public class SmokeTests extends BaseTest{
         ElnPage elnPage = mainPage.getElnPage(driver);
         ElnResultPage elnResultPage = elnPage.getElnForNewPeriod(driver);
         elnResultPage.checkNotFound(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка создания сертификата по положительному тесту на антитела LgG")
+    public void CertForAntibodiesLgG() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGNegativeAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности создания сертификата по положительному тесту на антитела LgG")
+    public void NoCertForPositiveAntibodiesLgG() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGPositiveAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности создания сертификата по отрицательному и после этого положительному тесту на антитела LgG")
+    public void NoCertForPositiveAndNegativeAntibodiesLgG() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGNegativeAntibodies(driver);
+        smevPage.submitLgGPositiveAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности генерации сертификата для положительного теста на антитела LgM")
+    public void NoCertForPositiveAntibodiesLgM() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgMPostitiveAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности генерации сертификата для отрицательного теста на антитела LgM")
+    public void NoCertForNegativeAntibodiesLgM() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgMNegativeAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности генерации сертификата для отрицательного теста на антитела LgG + LgM")
+    public void NoCertForNegativeAntibodiesLgGLgM() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGLgMNegativeAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности генерации сертификата для отрицательного теста на антитела LgG + LgM")
+    public void NoCertForPositiveAntibodiesLgGLgM() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGLgMPositiveAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности генерации сертификата для отрицательного просроченного теста на антитела LgG")
+    public void NoCertForNegativeAntibodiesLgGOverdue() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGNegativeAntibodiesOverdue(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка отсутствия возможности генерации сертификата для положительного просроченного теста на антитела LgG")
+    public void NoCertForPositiveAntibodiesLgGOverdue() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGPositiveAntibodiesOverdue(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.checkNotButtonFormCert(driver);
+    }
+
+    @Test
+    public void getToken(){
+        TestAssured testAssured = new TestAssured();
+        String token = testAssured.getToken(URL_UAT_FEDLKAPINLB, OID_TARANTINO);
     }
 }

@@ -19,7 +19,7 @@ public class Sql {
     protected String dev2_url = "jdbc:postgresql://10.81.21.86/vaccine?prepareThreshold=0";
     protected String dev2_login = "vaccine";
     protected String dev2_password = "thai6aShud";
-    protected String uat_url_oracle = "pgu@//10.81.8.36:1521/u00pgu";
+    protected String uat_url_oracle = "jdbc:oracle:thin:@10.81.8.36:1521:u00pgu";
     protected String uat_login_oracle = "pgu";
     protected String uat_password_oracle = "pgu";
     protected String dev_url_oracle = "pgu@//10.81.21.31:1521/u00pgu";
@@ -266,7 +266,21 @@ public class Sql {
         deleteAdmissionRequestForOid(connectionStands, oid);
     }
 
-    @Step("Получение подключения по стенду")
+    @Step("Удаление записей из бд LK.COVID_TEST_FROM_MO по СНИЛС")
+    public void deleteCovidTestFromMoForSnils(ConnectionStands connectionStands, String snils) throws SQLException {
+        Statement statement = getOracleConnection(connectionStands);
+        int del = statement.executeUpdate("delete from LK.COVID_TEST_FROM_MO where snils ='" + snils + "'");
+        connection.close();
+    }
+
+    @Step("Удаление записей из бд LK.COVID_TEST_FROM_MO_DP по oid")
+    public void deleteCovidTestFromMoDpForOid(ConnectionStands connectionStands, String oid) throws SQLException {
+        Statement statement = getOracleConnection(connectionStands);
+        int del = statement.executeUpdate("delete from LK.COVID_TEST_FROM_MO_DP where oid ='" + oid + "'");
+        connection.close();
+    }
+
+    @Step("Получение подключения по стенду для postgreSQL")
     private Statement getConnection(ConnectionStands connectionStands) throws SQLException {
         switch(connectionStands) {
             case UAT:
@@ -277,6 +291,23 @@ public class Sql {
                 break;
             case DEV2:
                 connection = DriverManager.getConnection(dev2_url, dev2_login, dev2_password);
+                break;
+        }
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        return statement;
+    }
+
+    @Step("Получение подключения по стенду для Oracle")
+    private Statement getOracleConnection(ConnectionStands connectionStands) throws SQLException {
+        switch(connectionStands){
+            case UAT:
+                connection = DriverManager.getConnection(uat_url_oracle, uat_login_oracle, uat_password_oracle);
+                break;
+            case DEV:
+                connection = DriverManager.getConnection(dev_url_oracle, dev_login_oracle, dev_password_oracle);
+                break;
+            case DEV2:
+                connection = DriverManager.getConnection(dev2_url_oracle, dev_login_oracle, dev_password_oracle);
                 break;
         }
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);

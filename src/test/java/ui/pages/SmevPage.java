@@ -55,6 +55,14 @@ public class SmevPage {
         return user;
     }
 
+    @Step("Получение из json файла пользователя для тестирования антител")
+    private User getAntibodiesUser() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+        user = mapper.readValue(new File("src/test/resources/antibodiesUser.json"), User.class);
+        return user;
+    }
+
     @Step("Внесение данных в поля СМЭВ для вакцины")
     private void subForVaccine(User user, Date date, int vacPhaseNum, int vcPhasesTot, long unrz){
         driver.findElement(xmlRequest).clear();
@@ -205,6 +213,71 @@ public class SmevPage {
         Date date = cal.getTime();
         unrz = rnd();
         subForAdmission(user, date, unrz, 3);
+        return date;
+    }
+
+    @Step("Отправка негативного теста на антитела LgG")
+    public Date submitLgGNegativeAntibodies(WebDriver driver) throws IOException {
+        return submitActiveAntibodies(1, 2);
+    }
+
+    @Step("Отправка позитивного теста на антитела LgG")
+    public Date submitLgGPositiveAntibodies(WebDriver driver) throws IOException {
+        return submitActiveAntibodies(2, 2);
+    }
+
+    @Step("Отправка негативного теста на антитела LgM")
+    public Date submitLgMNegativeAntibodies(WebDriver driver) throws IOException {
+        return submitActiveAntibodies(1, 3);
+    }
+
+    @Step("Отправка позитивного теста на антитела LgM")
+    public Date submitLgMPostitiveAntibodies(WebDriver driver) throws IOException {
+        return submitActiveAntibodies(2, 3);
+    }
+
+    @Step("Отправка отрицательного теста на антитела LgG + LgM")
+    public Date submitLgGLgMNegativeAntibodies(WebDriver driver) throws IOException {
+        return submitActiveAntibodies(1, 4);
+    }
+
+    @Step("Отправка положительного теста на антитела LgG + LgM")
+    public Date submitLgGLgMPositiveAntibodies(WebDriver driver) throws IOException {
+        return submitActiveAntibodies(2, 4);
+    }
+
+    @Step("Отправка просроченного негативного теста на антитела LgG")
+    public Date submitLgGNegativeAntibodiesOverdue(WebDriver driver) throws IOException {
+        return submitOverdueAntibodies(1, 2);
+    }
+
+    @Step("Отправка просроченного положительного теста на антитела LgG")
+    public Date submitLgGPositiveAntibodiesOverdue(WebDriver driver) throws IOException {
+        return submitOverdueAntibodies(2, 2);
+    }
+
+    @Step("Отправка активных антител")
+    private Date submitActiveAntibodies(int result, int type) throws IOException {
+        user = getAntibodiesUser();
+        Date date = new Date();
+        driver.findElement(xmlRequest).clear();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForAntibodies(user, date, result, type));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
+    }
+
+    @Step("Отправка активных антител")
+    private Date submitOverdueAntibodies(int result, int type) throws IOException {
+        user = getAntibodiesUser();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -6);
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        Date date = cal.getTime();
+        driver.findElement(xmlRequest).clear();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForAntibodies(user, date, result, type));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
         return date;
     }
 
@@ -366,6 +439,45 @@ public class SmevPage {
                 "        <tns:ClinicPhone>4959943647</tns:ClinicPhone>\n" +
                 "    </tns:MO>\n" +
                 "</tns:RegisterDeliverytoEPGU>\n";
+        return smevText;
+    }
+
+    @Step("Получение текста об антителах")
+    private String getSmevTextForAntibodies(User user, Date date, int result, int type){
+        String value = "";
+        if (type == 1) value = "6";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String smevText = "<ns:ExtOrdersRequest xmlns:ns=\"http://epgu.gosuslugi.ru/testcovid19/1.1.0\" env=\"EPGU\">\n" +
+                "<ns:Order>\n" +
+                "<ns:number>" + rnd() + "</ns:number>\n" +
+                "<ns:depart>100000</ns:depart>\n" +
+                "<ns:laboratoryName>ООО \"Тест-лог\"</ns:laboratoryName>\n" +
+                "<ns:laboratoryOgrn>1037739468381</ns:laboratoryOgrn>\n" +
+                "<ns:name>МО-лог</ns:name><ns:ogrn>1037739468381</ns:ogrn>\n" +
+                "<ns:orderDate>" + formatter.format(date) + "</ns:orderDate>\n" +
+                "<ns:resultDate>" + formatter.format(date) + "</ns:resultDate>\n" +
+                "<ns:serv><ns:code>170114</ns:code>\n" +
+                "<ns:name>РНК SARS-CoV-2 (COVID-19), качественное определение</ns:name>\n" +
+                "<ns:testSystem>РЗН 2014/1987</ns:testSystem>\n" +
+                "<ns:biomaterDate>" + formatter.format(date) + "</ns:biomaterDate>\n" +
+                "<ns:result>" + result + "</ns:result>\n" +
+                "<ns:type>" + type + "</ns:type>\n" +
+                "<ns:value>" + value + "</ns:value>\n" +
+                "</ns:serv><ns:patient>\n" +
+                "<ns:surname>" + user.getSurName() +"</ns:surname>\n" +
+                "<ns:name>" + user.getFirstName() +"</ns:name>\n" +
+                "<ns:patronymic>" + user.getPatName() + "</ns:patronymic>\n" +
+                "<ns:gender>2</ns:gender>\n" +
+                "<ns:birthday>" + user.getBirthday() + "</ns:birthday>\n" +
+                "<ns:document>\n" +
+                "            <ns:documentType>FID_DOC</ns:documentType>\n" +
+                "            <ns:documentNumber>000000</ns:documentNumber>\n" +
+                "            <ns:documentSerNumber>4519</ns:documentSerNumber>\n" +
+                "</ns:document>\n" +
+                "<ns:phone>9603748167</ns:phone>\n" +
+                "<ns:email></ns:email>\n" +
+                "<ns:snils>" + user.getSnils() + "</ns:snils>\n" +
+                "</ns:patient></ns:Order></ns:ExtOrdersRequest>\n";
         return smevText;
     }
 
