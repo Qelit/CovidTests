@@ -80,6 +80,20 @@ public class CovidPage {
         return date;
     }
 
+    @Step("Проверка даты окончания сертификата по антителам")
+    public Date checkDateForCertAntibodies(WebDriver driver, Date vacDate) throws ParseException {
+        this.driver = driver;
+        driver.findElement(emptyQr).isDisplayed();
+        String emQr = driver.findElement(emptyQr).getText();
+        int index = emQr.lastIndexOf(" ");
+        emQr = emQr.substring((index+1));
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy");
+        Date covidDate = format.parse(emQr);
+        Date date = format.parse(format.format(vacDate));
+        Assert.assertTrue(covidDate.equals(addSixMoth(date)));
+        return date;
+    }
+
     @Step("Проверка даты начала медотвода")
     public Date checkDateForAdmission(WebDriver driver, Date admDate) throws ParseException {
         this.driver = driver;
@@ -100,6 +114,14 @@ public class CovidPage {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.YEAR, 1);
+        return cal.getTime();
+    }
+
+    private static Date addSixMoth(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, 6);
         return cal.getTime();
     }
 }

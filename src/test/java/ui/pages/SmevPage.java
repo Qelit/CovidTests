@@ -27,6 +27,11 @@ public class SmevPage {
 
     public SmevPage(WebDriver driver) {this.driver = driver;}
 
+    public SmevPage getSmevPage(String url){
+        driver.get(url);
+        return new SmevPage(driver);
+    }
+
     @Step("Получение из json файла пользователя для тестирования вакцины")
     private User getVaccineUser(){
         try {
@@ -217,42 +222,42 @@ public class SmevPage {
     }
 
     @Step("Отправка негативного теста на антитела LgG")
-    public Date submitLgGNegativeAntibodies(WebDriver driver) throws IOException {
+    public Date submitLgGTrueAntibodies(WebDriver driver) throws IOException {
         return submitActiveAntibodies(1, 2);
     }
 
     @Step("Отправка позитивного теста на антитела LgG")
-    public Date submitLgGPositiveAntibodies(WebDriver driver) throws IOException {
+    public Date submitLgGFalseAntibodies(WebDriver driver) throws IOException {
         return submitActiveAntibodies(2, 2);
     }
 
     @Step("Отправка негативного теста на антитела LgM")
-    public Date submitLgMNegativeAntibodies(WebDriver driver) throws IOException {
+    public Date submitLgMTrueAntibodies(WebDriver driver) throws IOException {
         return submitActiveAntibodies(1, 3);
     }
 
     @Step("Отправка позитивного теста на антитела LgM")
-    public Date submitLgMPostitiveAntibodies(WebDriver driver) throws IOException {
+    public Date submitLgMFalseAntibodies(WebDriver driver) throws IOException {
         return submitActiveAntibodies(2, 3);
     }
 
     @Step("Отправка отрицательного теста на антитела LgG + LgM")
-    public Date submitLgGLgMNegativeAntibodies(WebDriver driver) throws IOException {
+    public Date submitLgGLgMTrueAntibodies(WebDriver driver) throws IOException {
         return submitActiveAntibodies(1, 4);
     }
 
     @Step("Отправка положительного теста на антитела LgG + LgM")
-    public Date submitLgGLgMPositiveAntibodies(WebDriver driver) throws IOException {
+    public Date submitLgGLgMFalseAntibodies(WebDriver driver) throws IOException {
         return submitActiveAntibodies(2, 4);
     }
 
     @Step("Отправка просроченного негативного теста на антитела LgG")
-    public Date submitLgGNegativeAntibodiesOverdue(WebDriver driver) throws IOException {
+    public Date submitLgGTrueAntibodiesOverdue(WebDriver driver) throws IOException {
         return submitOverdueAntibodies(1, 2);
     }
 
     @Step("Отправка просроченного положительного теста на антитела LgG")
-    public Date submitLgGPositiveAntibodiesOverdue(WebDriver driver) throws IOException {
+    public Date submitLgGFalseAntibodiesOverdue(WebDriver driver) throws IOException {
         return submitOverdueAntibodies(2, 2);
     }
 
@@ -445,7 +450,8 @@ public class SmevPage {
     @Step("Получение текста об антителах")
     private String getSmevTextForAntibodies(User user, Date date, int result, int type){
         String value = "";
-        if (type == 1) value = "6";
+        if (type == 1)
+            value = "6";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String smevText = "<ns:ExtOrdersRequest xmlns:ns=\"http://epgu.gosuslugi.ru/testcovid19/1.1.0\" env=\"EPGU\">\n" +
                 "<ns:Order>\n" +

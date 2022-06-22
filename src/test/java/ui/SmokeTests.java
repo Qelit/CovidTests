@@ -3,7 +3,6 @@ package ui;
 import api.TestAssured;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
-import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import ui.pages.*;
@@ -11,9 +10,9 @@ import ui.sql.ConnectionStands;
 import ui.sql.Sql;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.sql.*;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 public class SmokeTests extends BaseTest{
@@ -32,7 +31,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -54,7 +53,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -79,7 +78,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -105,7 +104,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -131,7 +130,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -157,7 +156,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -183,7 +182,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -210,7 +209,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -235,7 +234,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -258,7 +257,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -280,7 +279,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -305,7 +304,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -331,7 +330,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -353,7 +352,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -381,7 +380,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -410,7 +409,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -439,7 +438,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -468,7 +467,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -497,7 +496,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -526,7 +525,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -555,7 +554,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -584,7 +583,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -612,7 +611,7 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -953,11 +952,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgGNegativeAntibodies(driver);
+        smevPage.submitLgGTrueAntibodies(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -979,11 +978,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgGPositiveAntibodies(driver);
+        smevPage.submitLgGFalseAntibodies(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1002,12 +1001,12 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgGNegativeAntibodies(driver);
-        smevPage.submitLgGPositiveAntibodies(driver);
+        smevPage.submitLgGTrueAntibodies(driver);
+        smevPage.submitLgGFalseAntibodies(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1026,11 +1025,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgMPostitiveAntibodies(driver);
+        smevPage.submitLgMFalseAntibodies(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1049,11 +1048,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgMNegativeAntibodies(driver);
+        smevPage.submitLgMTrueAntibodies(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1072,11 +1071,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgGLgMNegativeAntibodies(driver);
+        smevPage.submitLgGLgMTrueAntibodies(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1095,11 +1094,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgGLgMPositiveAntibodies(driver);
+        smevPage.submitLgGLgMFalseAntibodies(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1118,11 +1117,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgGNegativeAntibodiesOverdue(driver);
+        smevPage.submitLgGTrueAntibodiesOverdue(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1141,11 +1140,11 @@ public class SmokeTests extends BaseTest{
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitLgGPositiveAntibodiesOverdue(driver);
+        smevPage.submitLgGFalseAntibodiesOverdue(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_TARANTION);
+        loginPage.enterUserName(LOGIN_TARANTINO);
         loginPage.enterPassword(PASS_TARANTINO);
         mainPage = loginPage.enterClick();
         mainPage = mainPage.getMainPage(URL_UAT);
@@ -1153,6 +1152,205 @@ public class SmokeTests extends BaseTest{
         AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
         antibodiesPage.checkNotButtonFormCert(driver);
     }
+
+    @Test
+    @Feature("Антитела")
+    @Description("Проверка создания сертификата по положительному тесту на антитела LgG и наличию медотвода")
+    public void CertForAntibodiesLgGAndAdmission() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitAdmissionActive(driver);
+        smevPage.submitLgGTrueAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("С имеющимся сертификатом по антителам, новый положительный тест на антитела. Попытка формирования")
+    public void CertForAntibodiesLgGAndTrueAntibodies() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGTrueAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        smevPage.getSmevPage(SMEVUAT);
+        smevPage.submitLgGTrueAntibodies(driver);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        covidPage = mainPage.getCovidPage(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("С имеющимся сертификатом по антителам, новый отрицательный тест на антитела. Попытка формирования")
+    public void CertForAntibodiesLgGAndFalseAntibodies() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGTrueAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        smevPage.getSmevPage(SMEVUAT);
+        smevPage.submitLgGFalseAntibodies(driver);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        covidPage = mainPage.getCovidPage(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Добавить медотвод.")
+    public void CertForAntibodiesLgGAndAfterAdmission() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitLgGTrueAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        smevPage.getSmevPage(SMEVUAT);
+        smevPage.submitAdmissionActive(driver);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        covidPage = mainPage.getCovidPage(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Добавить вакцину.")
+    public void CertForAntibodiesLgGAndAfterVaccine() throws SQLException, IOException, ParseException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        Date antibodiesDate = smevPage.submitLgGTrueAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        covidPage.checkDateForCertAntibodies(driver, antibodiesDate);
+        smevPage.getSmevPage(SMEVUAT);
+        Date vaccineDate = smevPage.submitVaccineSinglePhaseActive(driver);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        covidPage = mainPage.getCovidPage(driver);
+        covidPage.checkDateForVaccine(driver, vaccineDate);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver, vaccineDate);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Добавить сертификат переболевшего.")
+    public void CertForAntibodiesLgGAndAfterIllness() throws SQLException, IOException, ParseException {
+        Sql sql = new Sql();
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        Date antibodiesDate = smevPage.submitLgGTrueAntibodies(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        covidPage.checkDateForCertAntibodies(driver, antibodiesDate);
+        smevPage.getSmevPage(SMEVUAT);
+        Date vaccineDate = smevPage.submitIllActive(driver);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        covidPage = mainPage.getCovidPage(driver);
+        covidPage.checkDateForVaccine(driver, vaccineDate);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver, vaccineDate);
+    }
+
+
 
     @Test
     public void getToken(){

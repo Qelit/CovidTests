@@ -3,16 +3,11 @@ package ui;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Step;
 import org.junit.After;
-import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -26,7 +21,7 @@ public class BaseTest {
     protected String LOGIN_KUBRIK = "+79555555001";
     protected String PASS_KUBRIK = "!Qq797979";
     protected String OID_KUBRIK = "1000483405";
-    protected String LOGIN_TARANTION = "+79555555009";
+    protected String LOGIN_TARANTINO = "+79555555009";
     protected String PASS_TARANTINO = "!Qq797979";
     protected String OID_TARANTINO = "3078943604";
     protected String LASTNAME_TARANTINO = "Тарантино";
