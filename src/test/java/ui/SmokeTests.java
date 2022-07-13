@@ -44,6 +44,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Вакцинация первым компонентом двухфазной вакцины")
     public void vaccineFirstPhase() throws SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -69,6 +70,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Проверка активной однофазной вакцины")
     public void vaccineSingleActive() throws SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -95,6 +97,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Проверка однофазной вакцины, срок которой не наступил")
     public void vaccineSingleHasNotArrived() throws SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -121,6 +124,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Проверка просроченной однофазной вакцины")
     public void vaccineSingleOverdue() throws SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -147,6 +151,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка актуальной двухфазной вакцины")
     public void vaccineTwoPhasesActive() throws SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -173,6 +178,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка истекшей двухфазной вакцины")
     public void vaccineTwoPhasesOverdue() throws SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -199,6 +205,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка ревакцинации при добавлении первой фазы вакцины")
     public void revaccineFirstPhase() throws SQLException, ParseException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -224,6 +231,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Ревакцинация двухфазной вакциной")
     public void revaccineTwoPhases() throws ParseException, SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -247,6 +255,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Ревацинация однокомпонентой вакциной")
     public void revaccineSinglePhase() throws ParseException, SQLException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -270,6 +279,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Проверка активного сертификата по переболезни")
     public void illnessActive() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -295,6 +305,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Проверка просроченного сертификата по переболезни")
     public void illnessOverdue() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -320,6 +331,7 @@ public class SmokeTests extends BaseTest{
     @Description("Добавление переболезни к просроченной переболезни")
     public void reIllness() throws SQLException, IOException, ParseException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -343,6 +355,7 @@ public class SmokeTests extends BaseTest{
     @Description("Создание срочного медотвода для пользователя с отсутствующим сертификатом")
     public void admissionForNoCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -371,6 +384,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание бессрочного медотвода для пользователей с отсутствующим сертификатом")
     public void admissionInfinityForNoCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -399,6 +413,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание бессрочного медотвода для пользователя с активным сертификатом по вакцине")
     public void admissionInfinityForActiveCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -428,6 +443,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание бессрочного медотвода для пользователя с просроченным сертификатом по вакцине")
     public void admissionInfinityForOverdueCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -457,6 +473,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание бессрочного медотвода для пользователя с не наступившим сертификатом по вакцине")
     public void admissionInfinityForNotArrivedCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -486,6 +503,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание срочного медотвода для пользователя с активным сертификатом по вакцине")
     public void admissionForActiveCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -515,6 +533,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание срочного медотвода для пользователя с просроченным сертификатом по вакцине")
     public void admissionForOverdueCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -544,6 +563,7 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание срочного медотвода для пользователя с не наступившим сертификатом по вакцине")
     public void admissionForNotArrivedCert() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
@@ -573,13 +593,14 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание более позднего медотвода на уже существующий ранний медотвод")
     public void admissionForLater() throws SQLException, IOException, ParseException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        smevPage.submitAdmissionEarly(driver);
-        Date date = smevPage.submitAdmissionActive(driver);
+        Date date = smevPage.submitAdmissionEarly(driver);
+        smevPage.submitAdmissionActive(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
@@ -601,13 +622,14 @@ public class SmokeTests extends BaseTest{
     @Description(value = "Создание более раннего медотвода на уже существующий поздний медотвод")
     public void admissionForEarly() throws SQLException, IOException, ParseException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
         driver = start(SMEVUAT);
         SmevPage smevPage = new SmevPage(driver);
-        Date date = smevPage.submitAdmissionActive(driver);
-        smevPage.submitAdmissionEarly(driver);
+        Date firstDate = smevPage.submitAdmissionActive(driver);
+        Date date = smevPage.submitAdmissionEarly(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
@@ -618,7 +640,7 @@ public class SmokeTests extends BaseTest{
         CovidPage covidPage = mainPage.getCovidPage(driver);
         covidPage.checkDateForAdmission(driver, date);
         StatusPage statusPage = covidPage.getQRUrl(driver);
-        statusPage.getAdmissionStatusUntil(driver, date);
+        statusPage.getAdmissionStatusUntil(driver, firstDate);
         sql.checkInAdmission(ConnectionStands.UAT, OID_TARANTINO, 2);
         sql.checkInAdmissionRequest(ConnectionStands.UAT, OID_TARANTINO, 2);
         sql.checkInAdmissionResponse(ConnectionStands.UAT, OID_TARANTINO, 2);
@@ -947,6 +969,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка создания сертификата по положительному тесту на антитела LgG")
     public void CertForAntibodiesLgG() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -973,6 +996,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности создания сертификата по положительному тесту на антитела LgG")
     public void NoCertForPositiveAntibodiesLgG() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -996,6 +1020,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности создания сертификата по отрицательному и после этого положительному тесту на антитела LgG")
     public void NoCertForPositiveAndNegativeAntibodiesLgG() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1020,6 +1045,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности генерации сертификата для положительного теста на антитела LgM")
     public void NoCertForPositiveAntibodiesLgM() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1043,6 +1069,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности генерации сертификата для отрицательного теста на антитела LgM")
     public void NoCertForNegativeAntibodiesLgM() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1066,6 +1093,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности генерации сертификата для отрицательного теста на антитела LgG + LgM")
     public void NoCertForNegativeAntibodiesLgGLgM() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1089,6 +1117,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности генерации сертификата для отрицательного теста на антитела LgG + LgM")
     public void NoCertForPositiveAntibodiesLgGLgM() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1112,6 +1141,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности генерации сертификата для отрицательного просроченного теста на антитела LgG")
     public void NoCertForNegativeAntibodiesLgGOverdue() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1135,6 +1165,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка отсутствия возможности генерации сертификата для положительного просроченного теста на антитела LgG")
     public void NoCertForPositiveAntibodiesLgGOverdue() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1158,6 +1189,7 @@ public class SmokeTests extends BaseTest{
     @Description("Проверка создания сертификата по положительному тесту на антитела LgG и наличию медотвода")
     public void CertForAntibodiesLgGAndAdmission() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1188,6 +1220,7 @@ public class SmokeTests extends BaseTest{
     @Description("С имеющимся сертификатом по антителам, новый положительный тест на антитела. Попытка формирования")
     public void CertForAntibodiesLgGAndTrueAntibodies() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1221,6 +1254,7 @@ public class SmokeTests extends BaseTest{
     @Description("С имеющимся сертификатом по антителам, новый отрицательный тест на антитела. Попытка формирования")
     public void CertForAntibodiesLgGAndFalseAntibodies() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1254,6 +1288,7 @@ public class SmokeTests extends BaseTest{
     @Description("У пользователя присутствует сертификат по антителам. Добавить медотвод.")
     public void CertForAntibodiesLgGAndAfterAdmission() throws SQLException, IOException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1287,6 +1322,7 @@ public class SmokeTests extends BaseTest{
     @Description("У пользователя присутствует сертификат по антителам. Добавить вакцину.")
     public void CertForAntibodiesLgGAndAfterVaccine() throws SQLException, IOException, ParseException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1321,6 +1357,7 @@ public class SmokeTests extends BaseTest{
     @Description("У пользователя присутствует сертификат по антителам. Добавить сертификат переболевшего.")
     public void CertForAntibodiesLgGAndAfterIllness() throws SQLException, IOException, ParseException {
         Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
         sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
         sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
@@ -1350,7 +1387,203 @@ public class SmokeTests extends BaseTest{
         statusPage.getActiveStatus(driver, vaccineDate);
     }
 
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Отправляем антитела с другим результатом")
+    public void CertForAntibodiesAndAntibodiesWithAnotherResult() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        long unrz = smevPage.rnd();
+        smevPage.submitLgGTrueAntibodies(driver, unrz);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        smevPage.getSmevPage(SMEVUAT);
+        smevPage.submitLgGFalseAntibodies(driver, unrz);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        mainPage.getCovidPage(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        covidPage.getEmptyQr(driver);
+        sql.checkInCovidStatusCertAntibodies(ConnectionStands.UAT, OID_TARANTINO);
+    }
 
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Отправляем антитела с другим типом теста")
+    public void CertForAntibodiesAndAntibodiesWithAnotherType() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        long unrz = smevPage.rnd();
+        smevPage.submitLgGTrueAntibodies(driver, unrz);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        smevPage.getSmevPage(SMEVUAT);
+        smevPage.submitLgMTrueAntibodies(driver, unrz);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        mainPage.getCovidPage(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        covidPage.getEmptyQr(driver);
+        sql.checkInCovidStatusCertAntibodies(ConnectionStands.UAT, OID_TARANTINO);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Отправляем антитела с текущим unrz на другой oid")
+    public void CertForAntibodiesAndAnotherOid() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        long unrz = smevPage.rnd();
+        smevPage.submitLgGTrueAntibodies(driver, unrz);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        smevPage.getSmevPage(SMEVUAT);
+        smevPage.submitLgGAntibodiesForAnotherOid(driver, unrz);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        mainPage.getCovidPage(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        covidPage.getEmptyQr(driver);
+        sql.checkInCovidStatusCertAntibodies(ConnectionStands.UAT, OID_TARANTINO);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Отправляем антитела с другой датой")
+    public void CertForAntibodiesAndAnotherDate() throws SQLException, IOException, ParseException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        long unrz = smevPage.rnd();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, - 1);
+        Date date = cal.getTime();
+        smevPage.submitLgGTrueAntibodies(driver, unrz, date);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        covidPage.checkDateForCertAntibodies(driver, date);
+        smevPage.getSmevPage(SMEVUAT);
+        date = smevPage.submitLgGTrueAntibodies(driver, unrz);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        covidPage = mainPage.getCovidPage(driver);
+        covidPage.checkDateForCertAntibodies(driver, date);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatusAntibodies(driver, date);
+    }
+
+    @Test
+    @Feature("Антитела")
+    @Description("У пользователя присутствует сертификат по антителам. Отправляем антитела с другими значениями, но не oid/результат/тип теста/дата")
+    public void CertForAntibodiesAndAnotherText() throws SQLException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.deleteCovidStatusCertForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.deleteCovidTestFromMoForSnils(ConnectionStands.UAT, SNILS_TARANTINO);
+        sql.deleteCovidTestFromMoDpForOid(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        long unrz = smevPage.rnd();
+        smevPage.submitLgGTrueAntibodies(driver, unrz);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_TARANTINO);
+        loginPage.enterPassword(PASS_TARANTINO);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        CovidPage covidPage = mainPage.getCovidPage(driver);
+        AntibodiesPage antibodiesPage = covidPage.getAntibodiesPage(driver);
+        antibodiesPage.formCert(driver);
+        smevPage.getSmevPage(SMEVUAT);
+        smevPage.submitLgGAntibodiesForAnotherText(driver, unrz);
+        mainPage = mainPage.getMainPage(URL_UAT);
+        mainPage.getCovidPage(driver);
+        covidPage = antibodiesPage.openCovidPage(driver);
+        StatusPage statusPage = covidPage.getQRUrl(driver);
+        statusPage.getActiveStatus(driver);
+    }
+
+    @Test
+    @Feature("Витрины")
+    @Description("Проверка открытия страницы с витринами и выбор себя")
+    public void getEqueue(){
+        driver = start(URL_UAT);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_EQUEUE);
+        loginPage.enterPassword(PASS_EQUEUE);
+        mainPage = loginPage.enterClick();
+        mainPage.getMainPage(URL_UAT);
+        EqueuePage equeuePage = mainPage.getEqueuePage(driver);
+        equeuePage.startAppointment(driver);
+        equeuePage.pickMySelf(driver);
+        equeuePage.checkOpen(driver);
+    }
 
     @Test
     public void getToken(){

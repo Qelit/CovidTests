@@ -55,6 +55,15 @@ public class Sql {
         connection.close();
     }
 
+    public void checkInCovidStatusCertAntibodies(ConnectionStands connectionStands, String oid) throws SQLException {
+        Statement statement = getConnection(connectionStands);
+        ResultSet rs = statement.executeQuery("select unrz_antibodies from covid_status_cert where oid = '" + oid + "';");
+        while(rs.next()){
+            Assert.assertTrue(rs.getString("unrz_antibodies") == null);
+        }
+        connection.close();
+    }
+
     public void checkInCovidRegisterRecord(ConnectionStands connectionStands, String oid, int count) throws SQLException {
         Statement statement = getConnection(connectionStands);
         ResultSet rs = statement.executeQuery("select * from covid_register_record where user_id = '" + oid + "'; ");
@@ -115,6 +124,7 @@ public class Sql {
         }
         Assert.assertTrue(rowCount == count);
     }
+
 
 
     @Step("Проверка наличия значения {verifiable} в названном столбце {columnName}")

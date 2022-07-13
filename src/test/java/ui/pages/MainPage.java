@@ -15,6 +15,7 @@ public class MainPage {
 
     @Step("Нажатие на кнопку войти")
     public LoginPage enter(WebDriver driver){
+        this.driver = driver;
         driver.findElement(enterButton).click();
         return new LoginPage(driver);
     }
@@ -31,6 +32,14 @@ public class MainPage {
         String url = driver.getCurrentUrl();
         driver.get(url + "10602/1");
         return new CovidPage(driver);
+    }
+
+    @Step("Открыть страницу с витринами 10700/1")
+    public EqueuePage getEqueuePage(WebDriver driver){
+        this.driver = driver;
+        String url = driver.getCurrentUrl();
+        driver.get(url + "10700/1/form");
+        return new EqueuePage(driver);
     }
 
     @Step("Открыть страницу с АМР МФЦ")

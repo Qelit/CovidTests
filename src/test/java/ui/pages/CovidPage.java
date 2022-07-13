@@ -7,6 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import qr.QRCodeReader;
 
 import javax.imageio.ImageIO;
@@ -83,6 +86,8 @@ public class CovidPage {
     @Step("Проверка даты окончания сертификата по антителам")
     public Date checkDateForCertAntibodies(WebDriver driver, Date vacDate) throws ParseException {
         this.driver = driver;
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(emptyQr)));
         driver.findElement(emptyQr).isDisplayed();
         String emQr = driver.findElement(emptyQr).getText();
         int index = emQr.lastIndexOf(" ");

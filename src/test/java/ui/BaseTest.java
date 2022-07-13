@@ -35,6 +35,8 @@ public class BaseTest {
     protected final String ELN_UAT = "https://eln-uat.test.gosuslugi.ru/";
     protected final String ELN_NUMBER = "900000667326";
     protected final String URL_UAT_FEDLKAPINLB = "http://pgu-uat-fedlkapinlb.test.gosuslugi.ru";
+    protected final String LOGIN_EQUEUE = "+79986857904";
+    protected final String PASS_EQUEUE = "12345!";
 
     public WebDriver getDriver() { return this.driver;}
 

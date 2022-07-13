@@ -49,6 +49,18 @@ public class StatusPage {
         Assert.assertEquals(addYear(vacDate), statusDate);
     }
 
+    @Step("Проверка активного статуса сертификата и даты окончания сертификата")
+    public void getActiveStatusAntibodies(WebDriver driver, Date vacDate) throws ParseException {
+        this.driver = driver;
+        String statusText = checkStatus(greenBg, activeUntil);
+        int index = statusText.lastIndexOf(" ");
+        statusText = statusText.substring((index+1));
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date statusDate = format.parse(statusText);
+        vacDate = format.parse(format.format(vacDate));
+        Assert.assertEquals(addSixMonthes(vacDate), statusDate);
+    }
+
     @Step("Проверка истечения срока сертификата")
     public void getOverdueStatus(WebDriver driver){
         this.driver = driver;
@@ -137,6 +149,14 @@ public class StatusPage {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.YEAR, 1);
+        return cal.getTime();
+    }
+
+    private static Date addSixMonthes(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, 6);
         return cal.getTime();
     }
 }

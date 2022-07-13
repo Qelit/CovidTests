@@ -4,6 +4,9 @@ import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AntibodiesPage {
     WebDriver driver;
@@ -22,6 +25,8 @@ public class AntibodiesPage {
     @Step("Формирование сертификата")
     public void formCert(WebDriver driver){
         this.driver = driver;
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(buttonGetCert)));
         driver.findElement(buttonGetCert).click();
         driver.findElement(buttonGetCertForResult).click();
     }
