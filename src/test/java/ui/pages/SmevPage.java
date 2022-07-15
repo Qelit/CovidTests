@@ -76,6 +76,18 @@ public class SmevPage {
         return user;
     }
 
+    @Step("Получение из json файла пользователя для тестирования получения детского сертификата")
+    private User getChildUser(){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+            user = mapper.readValue(new File("src/test/resources/childUser.json"), User.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     @Step("Внесение данных в поля СМЭВ для вакцины")
     private void subForVaccine(User user, Date date, int vacPhaseNum, int vcPhasesTot, long unrz){
         driver.findElement(xmlRequest).clear();
@@ -187,6 +199,20 @@ public class SmevPage {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, -1);
         cal.add(Calendar.MONTH, -1);
+        Date date = cal.getTime();
+        unrz = rnd();
+        driver.findElement(xmlRequest).clear();
+        driver.findElement(xmlRequest).sendKeys(getSmevTextForIll(user, date, unrz));
+        driver.findElement(buttonSubmit).click();
+        driver.findElement(buttonCloseMessageId).click();
+        return date;
+    }
+
+    @Step("Отправка активной переболезни")
+    public Date submitIllActiveForChild(WebDriver driver) throws IOException {
+        this.driver = driver;
+        user = getChildUser();
+        Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
         unrz = rnd();
         driver.findElement(xmlRequest).clear();

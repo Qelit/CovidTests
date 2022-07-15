@@ -56,4 +56,11 @@ public class MainPage {
         driver.get("https://eln-uat.test.gosuslugi.ru/");
         return new ElnPage(driver);
     }
+
+    @Step("Получить токен пользователя МФЦ")
+    public String getTokenMfc(WebDriver driver){
+        this.driver = driver;
+        String token = driver.manage().getCookieNamed("acc_t").toString();
+        return token;
+    }
 }

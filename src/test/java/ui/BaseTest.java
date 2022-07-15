@@ -1,8 +1,12 @@
 package ui;
 
+import com.codeborne.selenide.WebDriverRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import org.junit.After;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -35,6 +39,7 @@ public class BaseTest {
     protected final String ELN_UAT = "https://eln-uat.test.gosuslugi.ru/";
     protected final String ELN_NUMBER = "900000667326";
     protected final String URL_UAT_FEDLKAPINLB = "http://pgu-uat-fedlkapinlb.test.gosuslugi.ru";
+    protected final String URL_UAT_REST = "https://pgu-uat-fed.test.gosuslugi.ru";
     protected final String LOGIN_EQUEUE = "+79986857904";
     protected final String PASS_EQUEUE = "12345!";
 
@@ -65,8 +70,14 @@ public class BaseTest {
 
     @After()
     public void tearDown() {
+        makeScreenshot();
         if (driver != null) {
             driver.quit();
         }
+    }
+
+    @Attachment(value = "Attachment Screenshot", type = "image/png")
+    public byte[] makeScreenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 }

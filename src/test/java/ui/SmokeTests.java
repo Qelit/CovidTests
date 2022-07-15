@@ -879,7 +879,7 @@ public class SmokeTests extends BaseTest{
 
     @Test
     @Feature(value = "МФЦ")
-    @Description("Поиск по пользоватлю не имеющему сертификатов. МФЦ")
+    @Description("Поиск по пользователю не имеющему сертификатов. МФЦ")
     public void mfcHaveNotCert() throws SQLException, ParseException, IOException {
         Sql sql = new Sql();
         sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
@@ -898,6 +898,32 @@ public class SmokeTests extends BaseTest{
         mfcPage.enterEmployer(driver);
         MfcInformationPage mfcInformationPage = mfcPage.getActiveAdmissionCert(driver);
         mfcInformationPage.getFalseStatusPerson(driver);
+    }
+
+    @Test
+    @Feature(value = "Детские сертификаты")
+    @Description("Создание сертификата переболевшего")
+    public void childrenCerts() throws SQLException, ParseException, IOException {
+        Sql sql = new Sql();
+        sql.deleteMfcRequestForLastName(ConnectionStands.UAT, LASTNAME_TARANTINO);
+        sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
+        sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
+        driver = start(SMEVUAT);
+        SmevPage smevPage = new SmevPage(driver);
+        smevPage.submitIllActiveForChild(driver);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_MFC);
+        loginPage.enterPassword(PASS_MFC);
+        mainPage = loginPage.enterClick();
+        mainPage = mainPage.getMainPage(URL_UAT);
+        MfcPage mfcPage = mainPage.getMfcPage(driver);
+        mfcPage.enterEmployer(driver);
+        String token = mfcPage.getTokenMfc(driver);
+        TestAssured testAssured = new TestAssured();
+        testAssured.getChildCert(URL_UAT_REST, token);
     }
 
     @Test

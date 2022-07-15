@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 public class MfcPage {
     private WebDriver driver;
@@ -87,6 +88,16 @@ public class MfcPage {
         this.driver = driver;
         driver.findElement(buttonOOOYuteh).click();
         return this;
+    }
+
+    @Step("Получить токен пользователя МФЦ")
+    public String getTokenMfc(WebDriver driver){
+        this.driver = driver;
+        String token = driver.manage().getCookieNamed("acc_t").toString();
+        Set<Cookie> cookies = driver.manage().getCookies();
+        int index = token.lastIndexOf("; expires");
+        token = token.substring(0, index);
+        return token;
     }
 
     @Step("Получение сертификата по вакцине")
