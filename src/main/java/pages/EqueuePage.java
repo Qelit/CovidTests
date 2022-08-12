@@ -1,4 +1,4 @@
-package ui.pages;
+package pages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -21,7 +21,6 @@ public class EqueuePage {
 
     @Step("Нажать Начать")
     public void startAppointment(WebDriver driver){
-        this.driver = driver;
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.elementToBeClickable(toBegin));
         driver.findElement(toBegin).click();
@@ -29,7 +28,6 @@ public class EqueuePage {
 
     @Step("Выбрать себя")
     public void pickMySelf(WebDriver driver){
-        this.driver = driver;
         driver.findElement(mySelf).click();
     }
 

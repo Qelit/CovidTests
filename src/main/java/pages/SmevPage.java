@@ -1,4 +1,4 @@
-package ui.pages;
+package pages;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -106,7 +106,6 @@ public class SmevPage {
 
     @Step("Отправка активной однофазной вакцины, сделанной месяц назад")
     public Date submitVaccineSinglePhaseActive(WebDriver driver){
-        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -117,7 +116,6 @@ public class SmevPage {
 
     @Step("Отправка однофазной вакцины от сегодняшнего дня")
     public Date submitVaccineSinglePhaseHasNotArrived(WebDriver driver){
-        this.driver = driver;
         user = getVaccineUser();
         Date date = new Date();
         subForVaccine(user, date, 1, 1, rnd());
@@ -126,7 +124,6 @@ public class SmevPage {
 
     @Step("Создание просроченной однофазной вакцины")
     public Date submitVaccineSinglePhaseOverdue(WebDriver driver){
-        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -138,7 +135,6 @@ public class SmevPage {
 
     @Step("Отправка первой фазы двухвазной вакцины")
     public Date submitVaccineFirstPhase(WebDriver driver){
-        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -150,7 +146,6 @@ public class SmevPage {
 
     @Step("Отправка активной двухфазной вакцины")
     public Date submitVaccineTwoPhaseActive(WebDriver driver){
-        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -164,7 +159,6 @@ public class SmevPage {
 
     @Step("Отправка просроченной двухфазной вакцины")
     public Date submitVaccineTwoPhaseOverdue(WebDriver driver){
-        this.driver = driver;
         user = getVaccineUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, -1);
@@ -180,7 +174,6 @@ public class SmevPage {
 
     @Step("Отправка активной переболезни")
     public Date submitIllActive(WebDriver driver) throws IOException {
-        this.driver = driver;
         user = getIllnessUser();
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
@@ -194,7 +187,6 @@ public class SmevPage {
 
     @Step("Отправка просроченной переболезни")
     public Date submitIllOverdue(WebDriver driver) throws IOException {
-        this.driver = driver;
         user = getIllnessUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, -1);
@@ -210,7 +202,6 @@ public class SmevPage {
 
     @Step("Отправка активной переболезни")
     public Date submitIllActiveForChild(WebDriver driver) throws IOException {
-        this.driver = driver;
         user = getChildUser();
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
@@ -224,7 +215,6 @@ public class SmevPage {
 
     @Step("Отправка актуального медотвода")
     public Date submitAdmissionEarly(WebDriver driver) throws IOException {
-        this.driver = driver;
         user = getAdmissionUser();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
@@ -236,7 +226,6 @@ public class SmevPage {
 
     @Step("Отправка медотвода раньше текущей даты")
     public Date submitAdmissionActive(WebDriver driver) throws IOException {
-        this.driver = driver;
         user = getAdmissionUser();
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
@@ -246,7 +235,6 @@ public class SmevPage {
     }
 
     public Date submitAdmissionInfinite(WebDriver driver) throws IOException {
-        this.driver = driver;
         user = getAdmissionUser();
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();

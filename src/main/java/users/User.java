@@ -11,19 +11,20 @@ public class User {
     @JsonProperty("surName")
     private String surName;
     @JsonProperty("firstName")
-    String firstName;
+    private String firstName;
     @JsonProperty("patName")
-    String patName;
+    private String patName;
     @JsonProperty("snils")
-    String snils;
+    private String snils;
     @JsonProperty("birthday")
-    String birthday;
+    private String birthday;
     @JsonProperty("oid")
-    String oid;
+    private String oid;
     @JsonProperty("number")
-    String number;
+    private String number;
     @JsonProperty("series")
-    String series;
+    private String series;
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("surName")
     public String getSurName(){
@@ -94,8 +95,6 @@ public class User {
     public void setSeries(String series) {
         this.series = series;
     }
-
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonGetter
     public Map<String, Object> getAdditionalProperties() {

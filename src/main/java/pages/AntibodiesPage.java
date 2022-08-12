@@ -1,4 +1,4 @@
-package ui.pages;
+package pages;
 
 import io.qameta.allure.Step;
 import org.junit.Assert;
@@ -24,7 +24,6 @@ public class AntibodiesPage {
 
     @Step("Формирование сертификата")
     public void formCert(WebDriver driver){
-        this.driver = driver;
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(buttonGetCert)));
         driver.findElement(buttonGetCert).click();
@@ -32,14 +31,12 @@ public class AntibodiesPage {
     }
 
     public void checkNotButtonFormCert(WebDriver driver){
-        this.driver = driver;
         String imp = driver.findElement(impossible).getText();
         Assert.assertEquals(imp, noForm);
     }
 
     @Step("Открыть вкладку сертификат")
     public CovidPage openCovidPage(WebDriver driver){
-        this.driver = driver;
         driver.findElement(certTab).click();
         return new CovidPage(driver);
     }

@@ -1,21 +1,16 @@
-package ui.pages;
+package pages;
 
-import gherkin.deps.net.iharder.Base64;
 import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.AntibodiesPage;
 import qr.QRCodeReader;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,14 +41,14 @@ public class CovidPage {
 
     @Step("Переход на вкладку Антитела")
     public AntibodiesPage getAntibodiesPage(WebDriver driver){
-        this.driver = driver;
         driver.findElement(antibodiesTab).click();
         return new AntibodiesPage(driver);
     }
 
     @Step("Проверка отсутствия qr кода на странице")
     public void getEmptyQr(WebDriver driver){
-        this.driver = driver;
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(emptyQr));
         driver.findElement(emptyQr).isDisplayed();
         String emQr = driver.findElement(emptyQr).getText();
         Assert.assertTrue(emQr.contains("QR-код отсутствует"));
@@ -61,7 +56,6 @@ public class CovidPage {
 
     @Step
     public String checkDateOverdueCert(WebDriver driver){
-        this.driver = driver;
         driver.findElement(emptyQr).isDisplayed();
         String emQr = driver.findElement(emptyQr).getText();
         int index = emQr.lastIndexOf(" ");
@@ -71,7 +65,6 @@ public class CovidPage {
 
     @Step("Проверка даты окончания сертификата")
     public Date checkDateForVaccine(WebDriver driver, Date vacDate) throws ParseException {
-        this.driver = driver;
         driver.findElement(emptyQr).isDisplayed();
         String emQr = driver.findElement(emptyQr).getText();
         int index = emQr.lastIndexOf(" ");
@@ -85,7 +78,6 @@ public class CovidPage {
 
     @Step("Проверка даты окончания сертификата по антителам")
     public Date checkDateForCertAntibodies(WebDriver driver, Date vacDate) throws ParseException {
-        this.driver = driver;
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(emptyQr)));
         driver.findElement(emptyQr).isDisplayed();
@@ -101,7 +93,6 @@ public class CovidPage {
 
     @Step("Проверка даты начала медотвода")
     public Date checkDateForAdmission(WebDriver driver, Date admDate) throws ParseException {
-        this.driver = driver;
         driver.findElement(admDates).isDisplayed();
         String emQr = driver.findElement(admDates).getText();
         int index = emQr.lastIndexOf("с");

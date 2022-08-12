@@ -5,9 +5,9 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import ui.pages.*;
-import ui.sql.ConnectionStands;
-import ui.sql.Sql;
+import pages.*;
+import sql.ConnectionStands;
+import sql.Sql;
 
 import java.io.IOException;
 import java.sql.*;
@@ -27,7 +27,7 @@ public class SmokeTests extends BaseTest{
         sql.prepareForTestVaccine(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestIllness(ConnectionStands.UAT, OID_TARANTINO);
         sql.prepareForTestAdmission(ConnectionStands.UAT, OID_TARANTINO);
-        driver = start(SMEVUAT);
+        driver = new DriverManager().start(SMEVUAT);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);

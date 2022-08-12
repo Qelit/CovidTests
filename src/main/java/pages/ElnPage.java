@@ -1,4 +1,4 @@
-package ui.pages;
+package pages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.ElnDetailsPage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,7 +63,6 @@ public class ElnPage {
     }
 
     public ElnResultPage getElnForNewPeriod(WebDriver driver){
-        this.driver = driver;
         Date dateFrom = new Date();
         Date dateTo = new Date();
         return getElnForSelectPeriod(dateFrom, dateTo);

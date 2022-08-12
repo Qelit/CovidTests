@@ -1,4 +1,4 @@
-package ui.pages;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,6 @@ public class AppointmentToDoctorPage {
     public AppointmentToDoctorPage(WebDriver driver) { this.driver = driver;}
 
     public EqueuePage getEqueuePage(WebDriver driver){
-        this.driver = driver;
         driver.findElement(getService).click();
         return new EqueuePage(driver);
     }

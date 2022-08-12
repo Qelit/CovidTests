@@ -1,4 +1,4 @@
-package ui.pages;
+package pages;
 
 import io.qameta.allure.Step;
 import org.junit.Assert;
@@ -33,13 +33,11 @@ public class StatusPage {
 
     @Step("Проверка активного статуса сертификата")
     public void getActiveStatus(WebDriver driver){
-        this.driver = driver;
         checkStatus(greenBg, activeUntil);
     }
 
     @Step("Проверка активного статуса сертификата и даты окончания сертификата")
     public void getActiveStatus(WebDriver driver, Date vacDate) throws ParseException {
-        this.driver = driver;
         String statusText = checkStatus(greenBg, activeUntil);
         int index = statusText.lastIndexOf(" ");
         statusText = statusText.substring((index+1));
@@ -51,7 +49,6 @@ public class StatusPage {
 
     @Step("Проверка активного статуса сертификата и даты окончания сертификата")
     public void getActiveStatusAntibodies(WebDriver driver, Date vacDate) throws ParseException {
-        this.driver = driver;
         String statusText = checkStatus(greenBg, activeUntil);
         int index = statusText.lastIndexOf(" ");
         statusText = statusText.substring((index+1));
@@ -63,13 +60,11 @@ public class StatusPage {
 
     @Step("Проверка истечения срока сертификата")
     public void getOverdueStatus(WebDriver driver){
-        this.driver = driver;
         checkStatus(redBg, expired);
     }
 
     @Step("Проверка истечения срока сертификата и даты истечения сертификата")
     public void getOverdueStatus(WebDriver driver, String date, Date vacDate) throws ParseException {
-        this.driver = driver;
         String statusText = checkStatus(redBg, expired);
         Date startDate = checkDateForVaccine(statusText,date);
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -79,7 +74,6 @@ public class StatusPage {
 
     @Step("Проверка валидации медотвода до срока")
     public void getAdmissionStatusUntil(WebDriver driver){
-        this.driver = driver;
         checkAdmissionStatus(admissionContainer, admissionUntil);
     }
 
@@ -95,19 +89,16 @@ public class StatusPage {
 
     @Step("Проверка валидации бессрочного медотвода")
     public void getAdmissionStatusInfinity(WebDriver driver){
-        this.driver = driver;
         checkAdmissionStatus(admissionContainer, admissionInfinity);
     }
 
     @Step("Проверка того, что срок сертификата еще не наступил")
     public void getNotArrivedStatus(WebDriver driver){
-        this.driver = driver;
         checkStatus(redBg, activeSince);
     }
 
     @Step("Проверка отсутствующего сертификата")
     public void getEmptyStatus(WebDriver driver){
-        this.driver = driver;
         checkStatus(redBg, empty);
     }
 

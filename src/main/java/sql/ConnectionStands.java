@@ -1,4 +1,4 @@
-package ui.sql;
+package sql;
 
 public enum ConnectionStands {
     DEV,

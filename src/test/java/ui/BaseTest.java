@@ -68,8 +68,8 @@ public class BaseTest {
         }
     }
 
-    @After()
-    public void tearDown() {
+    /*@After()
+    public void tearDown(WebDriver driver) {
         makeScreenshot();
         if (driver != null) {
             driver.quit();
@@ -79,5 +79,5 @@ public class BaseTest {
     @Attachment(value = "Attachment Screenshot", type = "image/png")
     public byte[] makeScreenshot() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    }
+    }*/
 }

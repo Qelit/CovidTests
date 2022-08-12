@@ -1,4 +1,4 @@
-package ui.pages;
+package pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -13,13 +13,11 @@ public class MfcInformationPage {
     public MfcInformationPage(WebDriver driver) {this.driver = driver;}
 
     public void getTrueStatusPerson(WebDriver driver){
-        this.driver = driver;
         String stat = driver.findElement(statusPerson).getText();
         Assert.assertEquals(activeStatus, stat);
     }
 
     public void getFalseStatusPerson(WebDriver driver){
-        this.driver = driver;
         String stat = driver.findElement(statusPerson).getText();
         Assert.assertEquals(stat, falseStatus);
     }

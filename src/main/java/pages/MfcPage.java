@@ -1,11 +1,10 @@
-package ui.pages;
+package pages;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import users.User;
@@ -85,14 +84,12 @@ public class MfcPage {
 
     @Step("Выбрать сотрудника ООО Ютех")
     public MfcPage enterEmployer(WebDriver driver){
-        this.driver = driver;
         driver.findElement(buttonOOOYuteh).click();
         return this;
     }
 
     @Step("Получить токен пользователя МФЦ")
     public String getTokenMfc(WebDriver driver){
-        this.driver = driver;
         String token = driver.manage().getCookieNamed("acc_t").toString();
         Set<Cookie> cookies = driver.manage().getCookies();
         int index = token.lastIndexOf("; expires");
@@ -102,14 +99,12 @@ public class MfcPage {
 
     @Step("Получение сертификата по вакцине")
     public MfcInformationPage getActiveVaccineCert(WebDriver driver) throws ParseException {
-        this.driver = driver;
         User user = getVaccineUser();
         return getActiveCert(user);
     }
 
     @Step("Получение сертификата по медотводу")
     public MfcInformationPage getActiveAdmissionCert(WebDriver driver) throws ParseException {
-        this.driver = driver;
         User user = getAdmissionUser();
         return getActiveCert(user);
     }
