@@ -59,7 +59,7 @@ public class Sql {
         return exe;
     }
 
-    public void checkInVcUser(ConnectionStands connectionStands, String oid, String columnName, int count) {
+    public Sql checkInVcUser(ConnectionStands connectionStands, String oid, String columnName, int count) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -78,6 +78,7 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        return new Sql();
     }
 
     public void checkInCovidStatusCertAntibodies(ConnectionStands connectionStands, String oid)  {
@@ -101,7 +102,7 @@ public class Sql {
         }
     }
 
-    public void checkInCovidRegisterRecord(ConnectionStands connectionStands, String oid, int count) {
+    public Sql checkInCovidRegisterRecord(ConnectionStands connectionStands, String oid, int count) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -118,6 +119,7 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        return new Sql();
     }
 
     @Step("Проверка количества строк выдаваемых при запросе")
@@ -140,7 +142,7 @@ public class Sql {
     }
 
     @Step("Проверка записей в бд admission")
-    public void checkInAdmission(ConnectionStands connectionStands, String oid, int count) {
+    public Sql checkInAdmission(ConnectionStands connectionStands, String oid, int count) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -155,10 +157,11 @@ public class Sql {
                 }
             }
         }
+        return new Sql();
     }
 
     @Step("Проверка записей в бд admission_request")
-    public void checkInAdmissionRequest(ConnectionStands connectionStands, String oid, int count) {
+    public Sql checkInAdmissionRequest(ConnectionStands connectionStands, String oid, int count) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -173,9 +176,10 @@ public class Sql {
                 }
             }
         }
+        return new Sql();
     }
 
-    public void checkInAdmissionResponse(ConnectionStands connectionStands, String oid, int count) {
+    public Sql checkInAdmissionResponse(ConnectionStands connectionStands, String oid, int count) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -190,10 +194,11 @@ public class Sql {
                 }
             }
         }
+        return new Sql();
     }
 
     @Step("Проверка количества строк в таблице vc_cert")
-    public void checkInVcCert(ConnectionStands connectionStands, String oid, int count) {
+    public Sql checkInVcCert(ConnectionStands connectionStands, String oid, int count) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -213,10 +218,11 @@ public class Sql {
                 }
             }
         }
+        return new Sql();
     }
 
     @Step("Проверка количества строк в таблице covid_status_cert")
-    public void checkInCovidStatusCert(ConnectionStands connectionStands, String oid, int count) {
+    public Sql checkInCovidStatusCert(ConnectionStands connectionStands, String oid, int count) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -236,6 +242,7 @@ public class Sql {
                 }
             }
         }
+        return new Sql();
     }
 
     @Step("Проверка наличия значения {verifiable} в названном столбце {columnName}")
@@ -422,7 +429,7 @@ public class Sql {
     }
 
     @Step("Удаление записи из бд mfc_request по фамилии")
-    public void deleteMfcRequestForLastName(ConnectionStands connectionStands, String lastName) {
+    public Sql deleteMfcRequestForLastName(ConnectionStands connectionStands, String lastName) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -439,10 +446,11 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        return new Sql();
     }
 
     @Step("удаляет записи из бд covid_status_cert по oid")
-    public void deleteCovidStatusCertForOid(ConnectionStands connectionStands, String oid) {
+    public Sql deleteCovidStatusCertForOid(ConnectionStands connectionStands, String oid) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -462,6 +470,7 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        return new Sql();
     }
 
     @Step("Удаление записи из бд admission по oid")
@@ -526,7 +535,7 @@ public class Sql {
 
 
     @Step("Удаление из бд covid_status_cert, vc_user и vc_cert полей по oid")
-    public void prepareForTestVaccine(ConnectionStands connectionStands, String oid) {
+    public Sql prepareForTestVaccine(ConnectionStands connectionStands, String oid) {
         Statement statement = null;
         try {
             statement = getConnection(connectionStands);
@@ -544,24 +553,27 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        return new Sql();
     }
 
     @Step("Удаление записей из бд covid_register_record и covid_status_cert")
-    public void prepareForTestIllness(ConnectionStands connectionStands, String oid) throws SQLException {
+    public Sql prepareForTestIllness(ConnectionStands connectionStands, String oid) throws SQLException {
         deleteCovidRegisterRecordForOid(connectionStands, oid);
         deleteCovidStatusCertForOid(connectionStands, oid);
+        return new Sql();
     }
 
     @Step("Подготовка к тестированию медотводов")
-    public void prepareForTestAdmission(ConnectionStands connectionStands, String oid) throws SQLException {
+    public Sql prepareForTestAdmission(ConnectionStands connectionStands, String oid) throws SQLException {
         deleteCovidStatusCertForOid(connectionStands, oid);
         deleteAdmissionForOid(connectionStands, oid);
         deleteAdmissionResponseForOid(connectionStands, oid);
         deleteAdmissionRequestForOid(connectionStands, oid);
+        return new Sql();
     }
 
     @Step("Удаление записей из бд LK.COVID_TEST_FROM_MO по СНИЛС")
-    public void deleteCovidTestFromMoForSnils(ConnectionStands connectionStands, String snils) {
+    public Sql deleteCovidTestFromMoForSnils(ConnectionStands connectionStands, String snils) {
         Statement statement = null;
         try {
             statement = getOracleConnection(connectionStands);
@@ -577,10 +589,11 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        return new Sql();
     }
 
     @Step("Удаление записей из бд LK.COVID_TEST_FROM_MO_DP по oid")
-    public void deleteCovidTestFromMoDpForOid(ConnectionStands connectionStands, String oid) {
+    public Sql deleteCovidTestFromMoDpForOid(ConnectionStands connectionStands, String oid) {
         Statement statement = null;
         try {
             statement = getOracleConnection(connectionStands);
@@ -596,6 +609,7 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        return new Sql();
     }
 
     @Step("Получение подключения по стенду для postgreSQL")

@@ -32,12 +32,13 @@ public class StatusPage {
     public StatusPage(WebDriver driver) { this.driver = driver;}
 
     @Step("Проверка активного статуса сертификата")
-    public void getActiveStatus(WebDriver driver){
+    public StatusPage getActiveStatus(WebDriver driver){
         checkStatus(greenBg, activeUntil);
+        return new StatusPage(driver);
     }
 
     @Step("Проверка активного статуса сертификата и даты окончания сертификата")
-    public void getActiveStatus(WebDriver driver, Date vacDate) throws ParseException {
+    public StatusPage getActiveStatus(WebDriver driver, Date vacDate) throws ParseException {
         String statusText = checkStatus(greenBg, activeUntil);
         int index = statusText.lastIndexOf(" ");
         statusText = statusText.substring((index+1));
@@ -45,10 +46,11 @@ public class StatusPage {
         Date statusDate = format.parse(statusText);
         vacDate = format.parse(format.format(vacDate));
         Assert.assertEquals(addYear(vacDate), statusDate);
+        return new StatusPage(driver);
     }
 
     @Step("Проверка активного статуса сертификата и даты окончания сертификата")
-    public void getActiveStatusAntibodies(WebDriver driver, Date vacDate) throws ParseException {
+    public StatusPage getActiveStatusAntibodies(WebDriver driver, Date vacDate) throws ParseException {
         String statusText = checkStatus(greenBg, activeUntil);
         int index = statusText.lastIndexOf(" ");
         statusText = statusText.substring((index+1));
@@ -56,6 +58,7 @@ public class StatusPage {
         Date statusDate = format.parse(statusText);
         vacDate = format.parse(format.format(vacDate));
         Assert.assertEquals(addSixMonthes(vacDate), statusDate);
+        return new StatusPage(driver);
     }
 
     @Step("Проверка истечения срока сертификата")
@@ -73,8 +76,9 @@ public class StatusPage {
     }
 
     @Step("Проверка валидации медотвода до срока")
-    public void getAdmissionStatusUntil(WebDriver driver){
+    public StatusPage getAdmissionStatusUntil(WebDriver driver){
         checkAdmissionStatus(admissionContainer, admissionUntil);
+        return new StatusPage(driver);
     }
 
     @Step("Проверка валидации медотвода до срока и проверка срока")
@@ -88,8 +92,9 @@ public class StatusPage {
     }
 
     @Step("Проверка валидации бессрочного медотвода")
-    public void getAdmissionStatusInfinity(WebDriver driver){
+    public StatusPage getAdmissionStatusInfinity(WebDriver driver){
         checkAdmissionStatus(admissionContainer, admissionInfinity);
+        return new StatusPage(driver);
     }
 
     @Step("Проверка того, что срок сертификата еще не наступил")

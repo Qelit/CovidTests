@@ -50,6 +50,7 @@ public class MfcPage {
     private final By representativeIssuedBy = By.xpath("//div[@id='representativeIssuedBy']");
     private final By representDoc = By.xpath("//div[@id='representDoc']");
     private final By buttonOOOYuteh = By.xpath("//button[@title='ООО ЮТЕХ']");
+    private final By buttonChocolate = By.xpath("//button[@title='Общество с ограниченной ответственностью «Шоколадка»']");
     private final By passportRus = By.xpath("//div[@itemid='passportRus']");
     private final By passportRusEng = By.xpath("//div[@itemid='passportRusEng']");
     private final By passportEng = By.xpath("//div[@itemid='passportEng']");
@@ -84,7 +85,7 @@ public class MfcPage {
 
     @Step("Выбрать сотрудника ООО Ютех")
     public MfcPage enterEmployer(WebDriver driver){
-        driver.findElement(buttonOOOYuteh).click();
+        driver.findElement(buttonChocolate).click();
         return this;
     }
 

@@ -12,13 +12,15 @@ public class MfcInformationPage {
 
     public MfcInformationPage(WebDriver driver) {this.driver = driver;}
 
-    public void getTrueStatusPerson(WebDriver driver){
+    public MfcInformationPage getTrueStatusPerson(WebDriver driver){
         String stat = driver.findElement(statusPerson).getText();
         Assert.assertEquals(activeStatus, stat);
+        return new MfcInformationPage(driver);
     }
 
-    public void getFalseStatusPerson(WebDriver driver){
+    public MfcInformationPage getFalseStatusPerson(WebDriver driver){
         String stat = driver.findElement(statusPerson).getText();
         Assert.assertEquals(stat, falseStatus);
+        return new MfcInformationPage(driver);
     }
 }

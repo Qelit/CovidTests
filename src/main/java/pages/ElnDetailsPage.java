@@ -15,8 +15,9 @@ public class ElnDetailsPage {
     }
 
     @Step("Проверка статуса Открытый для ЭЛН")
-    public void checkOpenStatus(WebDriver driver){
+    public ElnDetailsPage checkOpenStatus(WebDriver driver){
         String tag = driver.findElement(primaryTag).getText();
         Assert.assertEquals(tag, open);
+        return new ElnDetailsPage(driver);
     }
 }

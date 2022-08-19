@@ -32,16 +32,4 @@ public class DriverManager {
         return driver;
     }
 
-    @After()
-    public void tearDown() {
-        makeScreenshot();
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-
-    @Attachment(value = "Attachment Screenshot", type = "image/png")
-    public byte[] makeScreenshot() {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    }
 }

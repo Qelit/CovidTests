@@ -61,8 +61,9 @@ public class MainPage {
         return token;
     }
 
-    public void clickBurger(WebDriver driver){
+    public MainPage clickBurger(WebDriver driver){
         driver.findElement(burger).click();
+        return new MainPage(driver);
     }
 
     public OldDoctorPage openOldDoctorPage(WebDriver driver){

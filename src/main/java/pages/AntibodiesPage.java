@@ -23,16 +23,18 @@ public class AntibodiesPage {
     }
 
     @Step("Формирование сертификата")
-    public void formCert(WebDriver driver){
+    public AntibodiesPage formCert(WebDriver driver){
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(buttonGetCert)));
         driver.findElement(buttonGetCert).click();
         driver.findElement(buttonGetCertForResult).click();
+        return new AntibodiesPage(driver);
     }
 
-    public void checkNotButtonFormCert(WebDriver driver){
+    public AntibodiesPage checkNotButtonFormCert(WebDriver driver){
         String imp = driver.findElement(impossible).getText();
         Assert.assertEquals(imp, noForm);
+        return new AntibodiesPage(driver);
     }
 
     @Step("Открыть вкладку сертификат")

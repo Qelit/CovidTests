@@ -46,12 +46,13 @@ public class CovidPage {
     }
 
     @Step("Проверка отсутствия qr кода на странице")
-    public void getEmptyQr(WebDriver driver){
+    public CovidPage getEmptyQr(WebDriver driver){
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(emptyQr));
         driver.findElement(emptyQr).isDisplayed();
         String emQr = driver.findElement(emptyQr).getText();
         Assert.assertTrue(emQr.contains("QR-код отсутствует"));
+        return new CovidPage(driver);
     }
 
     @Step

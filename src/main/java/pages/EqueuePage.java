@@ -20,21 +20,24 @@ public class EqueuePage {
     }
 
     @Step("Нажать Начать")
-    public void startAppointment(WebDriver driver){
+    public EqueuePage startAppointment(){
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.elementToBeClickable(toBegin));
         driver.findElement(toBegin).click();
+        return new EqueuePage(driver);
     }
 
     @Step("Выбрать себя")
-    public void pickMySelf(WebDriver driver){
+    public EqueuePage pickMySelf(){
         driver.findElement(mySelf).click();
+        return new EqueuePage(driver);
     }
 
     @Step("Проверка открытия страницы выбора специальности врачей")
-    public void checkOpen(WebDriver driver){
+    public EqueuePage checkOpen(){
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(chooseDoctorsSpeciality)));
         driver.findElement(chooseDoctorsSpeciality).isDisplayed();
+        return new EqueuePage(driver);
     }
 }
