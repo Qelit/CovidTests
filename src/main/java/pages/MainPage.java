@@ -11,6 +11,7 @@ public class MainPage {
     private final By burger = By.xpath("//div[@class='catalog-menu-wrap ng-star-inserted']/lib-menu-catalog"); //бургер
     private final By health = By.xpath("//img[@alt='Здоровье']"); //здоровье
     private final By orderToOldDoctor = By.xpath("//div[@class='ps-content']//h4[text()=' Запись на прием к врачу ']");
+    private final By orderToCallingDoctor = By.xpath();
 
     public MainPage(WebDriver driver){
         this.driver = driver;
@@ -70,5 +71,11 @@ public class MainPage {
         driver.findElement(health).click();
         driver.findElement(orderToOldDoctor).click();
         return new OldDoctorPage(driver);
+    }
+
+    public CallingDoctorAtHome openCallingDoctorAtHome(WebDriver driver){
+        clickBurger(driver);
+        driver.findElement(health).click();
+        driver.findElement()
     }
 }
