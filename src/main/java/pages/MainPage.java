@@ -2,16 +2,18 @@ package pages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class MainPage {
 
     private WebDriver driver;
     private final By enterButton = By.xpath("//a[@class='link ng-star-inserted']"); // войти
     private final By burger = By.xpath("//div[@class='catalog-menu-wrap ng-star-inserted']/lib-menu-catalog"); //бургер
-    private final By health = By.xpath("//img[@alt='Здоровье']"); //здоровье
+    private final By health = By.xpath("//a[@class='catalog-link-item ng-star-inserted']"); //здоровье
     private final By orderToOldDoctor = By.xpath("//div[@class='ps-content']//h4[text()=' Запись на прием к врачу ']");
-    private final By orderToCallingDoctor = By.xpath();
+    private final By orderToCallingDoctor = By.xpath("//div[@class='hide-lg mob-container-inner']//h4[text()=' Вызов врача на дом ']"); //вызов врача на дом
 
     public MainPage(WebDriver driver){
         this.driver = driver;
@@ -75,7 +77,11 @@ public class MainPage {
 
     public CallingDoctorAtHome openCallingDoctorAtHome(WebDriver driver){
         clickBurger(driver);
-        driver.findElement(health).click();
-        driver.findElement()
+        WebElement element = driver.findElement(health);
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", element);
+        WebElement element1 = driver.findElement(orderToCallingDoctor);
+        executor.executeScript("arguments[0].click();", element1);;
+        return new CallingDoctorAtHome(driver);
     }
 }

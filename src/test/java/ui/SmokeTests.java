@@ -1616,4 +1616,21 @@ public class SmokeTests extends BaseTest{
         TestAssured testAssured = new TestAssured();
         String token = testAssured.getToken(URL_UAT_FEDLKAPINLB, OID_TARANTINO);
     }
+    @Test
+    public void callingDoctorAtHome(){
+        driver = start(URL_UAT);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_EQUEUE);
+        loginPage.enterPassword(PASS_EQUEUE);
+        mainPage = loginPage.enterClick();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mainPage.getMainPage(URL_UAT);
+        mainPage.openCallingDoctorAtHome(driver);
+    }
 }
