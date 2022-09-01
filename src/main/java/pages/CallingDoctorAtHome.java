@@ -11,7 +11,8 @@ public class CallingDoctorAtHome {
     private WebDriver driver;
     private final By Start = By.xpath("//button[@class='button font-']");//кнопка "Начать
     private final By clickOnMyself = By.xpath("//button[@class='btn--white btn--shadow']");//кнопка "Мне"
-    private final By correctData = By.xpath("//button[@class='button font-']");//кнопка верно
+    private final By correctData = By.xpath("//button[@class='button font-']");//кнопка верно на экране подтверждения
+    private final By insurancePolicy = By.xpath("//button[@class='button font-']");//кнопка верно на экране полиса
 
     public CallingDoctorAtHome (WebDriver driver){
         this.driver = driver;
@@ -38,6 +39,15 @@ public class CallingDoctorAtHome {
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.elementToBeClickable(correctData));
         driver.findElement(correctData).click();
+        return new CallingDoctorAtHome(driver);
+    }
+
+    //Нажимаем кнопку "Верно" на экране "Подтвердите полис ОМС"
+    @Step("Нажать Верно")
+    public CallingDoctorAtHome confirmPolicy(WebDriver driver){
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        wait.until(ExpectedConditions.elementToBeClickable(insurancePolicy));
+        driver.findElement(insurancePolicy).click();
         return new CallingDoctorAtHome(driver);
     }
 }
