@@ -74,7 +74,7 @@ public class MainPage {
         driver.findElement(orderToOldDoctor).click();
         return new OldDoctorPage(driver);
     }
-
+    @Step("Открыть услугу из вкладки Здоровье")
     public CallingDoctorAtHome openCallingDoctorAtHome(WebDriver driver){
         clickBurger(driver);
         WebElement element = driver.findElement(health);

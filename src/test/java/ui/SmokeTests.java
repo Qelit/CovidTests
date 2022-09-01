@@ -1617,7 +1617,7 @@ public class SmokeTests extends BaseTest{
         String token = testAssured.getToken(URL_UAT_FEDLKAPINLB, OID_TARANTINO);
     }
     @Test
-    public void callingDoctorAtHome(){
+    public void callingDoctor(){
         driver = start(URL_UAT);
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
@@ -1631,6 +1631,16 @@ public class SmokeTests extends BaseTest{
             e.printStackTrace();
         }
         mainPage.getMainPage(URL_UAT);
-        mainPage.openCallingDoctorAtHome(driver);
+        CallingDoctorAtHome callingDoctorAtHome = mainPage.openCallingDoctorAtHome(driver);
+        callingDoctorAtHome.startService(driver);
+        callingDoctorAtHome.Myself(driver);
+        callingDoctorAtHome.Correct(driver);
+        callingDoctorAtHome.confirmPolicy(driver);
+        callingDoctorAtHome.confirmPhone(driver);
+        callingDoctorAtHome.clickChangeAddress(driver);
+        callingDoctorAtHome.deleteOldAddress(driver);
+        callingDoctorAtHome.continueConfirm(driver);
+        callingDoctorAtHome.continueSymptoms(driver);
+        callingDoctorAtHome.confirmTime(driver);
     }
 }
