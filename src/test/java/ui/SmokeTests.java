@@ -1650,8 +1650,8 @@ public class SmokeTests extends BaseTest{
         MainPage mainPage = new MainPage(driver);
         mainPage.getMainPage(URL_UAT);
         LoginPage loginPage = mainPage.enter(driver);
-        loginPage.enterUserName(LOGIN_EQUEUE);
-        loginPage.enterPassword(PASS_EQUEUE);
+        loginPage.enterUserName(LOGIN_ELIZAROV);
+        loginPage.enterPassword(PASS_ELIZAROV);
         mainPage = loginPage.enterClick();
         try {
             Thread.sleep(3000);
@@ -1660,7 +1660,7 @@ public class SmokeTests extends BaseTest{
         }
         mainPage.getMainPage(URL_UAT);
         GetMedicalAttachment getMedicalAttachment = mainPage.openGetMedicalAttachment(driver);
-
+        getMedicalAttachment.startService(driver);
 
     }
 }

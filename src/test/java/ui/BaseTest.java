@@ -42,6 +42,8 @@ public class BaseTest {
     protected final String URL_UAT_REST = "https://pgu-uat-fed.test.gosuslugi.ru";
     protected final String LOGIN_EQUEUE = "+79986857904";
     protected final String PASS_EQUEUE = "12345!";
+    protected final String LOGIN_ELIZAROV = "208-202-134 06";
+    protected final String PASS_ELIZAROV = "$2YYeOq4";
 
     public WebDriver getDriver() { return this.driver;}
 
