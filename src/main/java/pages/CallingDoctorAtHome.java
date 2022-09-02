@@ -137,11 +137,8 @@ public class CallingDoctorAtHome {
     //Нажать "Подтвердить вызов" на экране "Время визита врача"
     @Step("Нажать Подтвердить вызов")
     public CallingDoctorAtHome confirmTime (WebDriver driver) {
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 8000);
+        wait.until(ExpectedConditions.elementToBeClickable(confirmTimeButton));
         driver.findElement(confirmTimeButton).click();
         return new CallingDoctorAtHome(driver);
     }
