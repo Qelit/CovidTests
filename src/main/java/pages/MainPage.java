@@ -14,6 +14,8 @@ public class MainPage {
     private final By health = By.xpath("//a[@class='catalog-link-item ng-star-inserted']"); //здоровье
     private final By orderToOldDoctor = By.xpath("//div[@class='ps-content']//h4[text()=' Запись на прием к врачу ']");
     private final By orderToCallingDoctor = By.xpath("//div[@class='hide-lg mob-container-inner']//h4[text()=' Вызов врача на дом ']"); //вызов врача на дом
+    private final By orderToGetMedicalAttachment = By.xpath("//div[@class='hide-lg mob-container-inner']//h4[text()=' Прикрепление к поликлинике ']"); //вызов врача на дом
+
 
     public MainPage(WebDriver driver){
         this.driver = driver;
@@ -74,7 +76,7 @@ public class MainPage {
         driver.findElement(orderToOldDoctor).click();
         return new OldDoctorPage(driver);
     }
-    @Step("Открыть услугу из вкладки Здоровье")
+    @Step("Открыть услугу Вызов врача на дом из вкладки Здоровье")
     public CallingDoctorAtHome openCallingDoctorAtHome(WebDriver driver){
         clickBurger(driver);
         WebElement element = driver.findElement(health);
@@ -83,5 +85,16 @@ public class MainPage {
         WebElement element1 = driver.findElement(orderToCallingDoctor);
         executor.executeScript("arguments[0].click();", element1);;
         return new CallingDoctorAtHome(driver);
+    }
+
+    @Step
+    public GetMedicalAttachment openGetMedicalAttachment(WebDriver driver){
+        clickBurger(driver);
+        WebElement element = driver.findElement(health);
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", element);
+        WebElement element1 = driver.findElement(orderToGetMedicalAttachment);
+        executor.executeScript("arguments[0].click();", element1);;
+        return new GetMedicalAttachment(driver);
     }
 }

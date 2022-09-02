@@ -1643,4 +1643,24 @@ public class SmokeTests extends BaseTest{
         callingDoctorAtHome.continueSymptoms(driver);
         callingDoctorAtHome.confirmTime(driver);
     }
+
+    @Test
+    public void getAttachment(){
+        driver = start(URL_UAT);
+        MainPage mainPage = new MainPage(driver);
+        mainPage.getMainPage(URL_UAT);
+        LoginPage loginPage = mainPage.enter(driver);
+        loginPage.enterUserName(LOGIN_EQUEUE);
+        loginPage.enterPassword(PASS_EQUEUE);
+        mainPage = loginPage.enterClick();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mainPage.getMainPage(URL_UAT);
+        GetMedicalAttachment getMedicalAttachment = mainPage.openGetMedicalAttachment(driver);
+
+
+    }
 }

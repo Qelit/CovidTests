@@ -9,5 +9,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.*;
 
 public class GetMedicalAttachment {
+    private WebDriver driver;
+
+    public GetMedicalAttachment(WebDriver driver){
+        this.driver = driver;
+    }
 
 }
