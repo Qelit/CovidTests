@@ -1660,7 +1660,8 @@ public class SmokeTests extends BaseTest{
         }
         mainPage.getMainPage(URL_UAT);
         GetMedicalAttachment getMedicalAttachment = mainPage.openGetMedicalAttachment(driver);
-        getMedicalAttachment.startService(driver);
+        getMedicalAttachment.startAttachment(driver);
+        getMedicalAttachment.forMyself(driver);
 
     }
 }

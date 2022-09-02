@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
 public class CallingDoctorAtHome {
     private WebDriver driver;
     private final By start = By.xpath("//button[@class='button font-']");//кнопка "Начать
-    private final By clickOnMyself = By.xpath("//button[@class='btn--white btn--shadow']");//кнопка "Мне"
+    private final By clickOnMyself = By.xpath("//span[@class = 'answer-btn__title'][text()='Мне']");//кнопка "Мне"
     private final By correctData = By.xpath("//button[@class='button font-']");//кнопка верно на экране подтверждения
     private final By insurancePolicy = By.xpath("//button[@class='button font-']");//кнопка верно на экране полиса
     private final By phone = By.xpath("//button[@class='button font-']");//кнопка верно на телефоне
@@ -137,7 +137,7 @@ public class CallingDoctorAtHome {
     //Нажать "Подтвердить вызов" на экране "Время визита врача"
     @Step("Нажать Подтвердить вызов")
     public CallingDoctorAtHome confirmTime (WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 8000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 30, 1000);
         wait.until(ExpectedConditions.elementToBeClickable(confirmTimeButton));
         driver.findElement(confirmTimeButton).click();
         return new CallingDoctorAtHome(driver);
