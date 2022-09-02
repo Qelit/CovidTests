@@ -11,12 +11,12 @@ import org.openqa.selenium.*;
 public class CallingDoctorAtHome {
     private WebDriver driver;
     private final By start = By.xpath("//button[@class='button font-']");//кнопка "Начать
-    private final By clickOnMyself = By.xpath("//span[@class = 'answer-btn__title'][text()='Мне']");//кнопка "Мне"
+    private final By clickOnMyself = By.xpath("//span[@class='answer-btn__title'][text()='Мне']");//кнопка "Мне"
     private final By correctData = By.xpath("//button[@class='button font-']");//кнопка верно на экране подтверждения
     private final By insurancePolicy = By.xpath("//button[@class='button font-']");//кнопка верно на экране полиса
     private final By phone = By.xpath("//button[@class='button font-']");//кнопка верно на телефоне
     private final By changeAddress = By.xpath("//button[@class='white button font-']");//кнопка указать другой адрес
-    private final By deleteAddress = By.xpath("//input[@type='text']");//кнопка указать другой адрес
+    private final By deleteAddress = By.xpath("//input[@type='text']");//поле для ввода адреса
     private final By clarifyAddress = By.xpath("//div[@class='head']");//для клика по другой области
     private final By confirmAddress = By.xpath("//button[@class='button font-']");//кнопка верно на адресе
     private final By continueConfirmButton = By.xpath("//button[@class='button font-']");//кнопка продолжить на доп.инфе
