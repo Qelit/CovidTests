@@ -25,6 +25,7 @@ public class CallingDoctorAtHome {
     private final By confirmTimeButton = By.xpath("//button[@class='button font-']");//кнопка подтвердить вызов
 
 
+
     private String address = "468321, г. Байконур, ул. Ленина, д. 10, кв. 15";
 
     public CallingDoctorAtHome (WebDriver driver){

@@ -1672,5 +1672,10 @@ public class SmokeTests extends BaseTest{
         getMedicalAttachment.deleteAddress(driver);
         getMedicalAttachment.confirmAnotherAddress(driver);
         getMedicalAttachment.changeAttachment(driver);
+        getMedicalAttachment.changeAttachmentReason(driver);
+        getMedicalAttachment.changeMedicalOrg(driver);
+        getMedicalAttachment.goToTheLk(driver);
+        getMedicalAttachment.searchRequest(driver);
+        getMedicalAttachment.cancelRequest(driver);
     }
 }
