@@ -19,16 +19,17 @@ public class GetMedicalAttachment {
     private final By confirmYourEmail = By.xpath("//button[@class='button font-']");//кнопка "Верно" на экране почты
     private final By enterDate = By.xpath("//input[@name='regDate']");//поле для ввода даты
     private final By clickOnTheText = By.xpath("//h1[text()='Подтвердите адрес регистрации']");//кнопка "Мне"
-    private final By confirmYourRegistrationAddress = By.xpath("//button[@class='button font-']");//кнопка "Верно" на экране регистрации
+    private final By confirmYourRegistrationAddress = By.xpath("//button[@class='button font- ng-star-inserted']");//кнопка "Верно" на экране регистрации
     private final By noForAddress = By.xpath("//span[@class='answer-btn__title'][text()='Нет']");//кнопка "Нет"
     private final By deleteTheAddress = By.xpath("//input[@type='text']");//поле для ввода адреса
     private final By clarifyTheAddress = By.xpath("//p[@class='mt-16']");//для клика по другой области
-    private final By confirmTheAddress = By.xpath("//button[@class='button font-']");//кнопка продолжить на адресе
-    private final By confirmAnotherAddressButton = By.xpath("//button[@class='white button font- ng-star-inserted']");//кнопка продолжить на экране в прикреплении могут отказать
+    private final By confirmTheAddress = By.xpath("//button[@tabindex='0']");//кнопка продолжить на адресе
+    private final By confirmAnotherAddressButton = By.xpath("//span[text()=' Продолжить ']");//кнопка продолжить на экране в прикреплении могут отказать
     private final By changeAttachmentButton = By.xpath("//button[@class='button font- ng-star-inserted']");//кнопка "Сменить прикрепление"
     private final By changeAttachmentReasonButton = By.xpath("//span[@class='answer-btn__title'][text()='Смена места жительства или пребывания']");//кнопка "Нет"
     private final By searchMedicalOrgField = By.xpath("//input[@class='search-input ng-untouched ng-pristine ng-valid']");//поле для ввода адреса
-    private final By medicalOrgField = By.xpath("//h6[@class='map-object__header ng-tns-c291-18']//span[@class='highlighted'][text()='Белгород Поликлиника №1']");//кнопка "Нет"
+    private final By activeSearchMedicalOrgField = By.xpath("//input[@placeholder='Адрес или название']");//поле для ввода адреса
+    private final By medicalOrgField = By.xpath("////div[@class='ps-content']//h6//span[@class='highlighted'][text()='Белгород Поликлиника №1']");//кнопка "Нет"
     private final By medicalOrgButton = By.xpath("//button[@class='wide button font- ng-star-inserted']");//кнопка "Сменить прикрепление"
     private final By sendRequest = By.xpath("//button[@class='button font- ng-star-inserted']");//кнопка "Сменить прикрепление"
     private final By lkButton = By.xpath("//button[@class='button font- ng-star-inserted']");//кнопка "Сменить прикрепление"
@@ -113,16 +114,9 @@ public class GetMedicalAttachment {
     @Step("Нажать Верно")
     public GetMedicalAttachment confirmRegistration(WebDriver driver) {
         driver.findElement(enterDate).click();
+        for (int i = 0; i < 10; i++){
         driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
-        driver.findElement(enterDate).sendKeys(Keys.ARROW_LEFT);
+        }
         driver.findElement(enterDate).sendKeys("21012020");
         driver.findElement(clickOnTheText).click();
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 7000);
@@ -141,7 +135,7 @@ public class GetMedicalAttachment {
     //Нажимаем на строку для ввода с адресом и стираем старый адрес, добавляем новый и нажимаем "Продолжить"
     @Step("Ввести другой адрес")
     public CallingDoctorAtHome deleteAddress(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 5000);
         wait.until(ExpectedConditions.elementToBeClickable(deleteTheAddress));
         driver.findElement(deleteTheAddress).click();
         driver.findElement(deleteTheAddress).sendKeys(Keys.CONTROL + "a");
@@ -168,7 +162,7 @@ public class GetMedicalAttachment {
     //Нажимаем "Продолжить" на экране "В прикреплении могут отказать"
     @Step("Нажать Продолжить")
     public GetMedicalAttachment confirmAnotherAddress(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 7000);
         wait.until(ExpectedConditions.elementToBeClickable(confirmAnotherAddressButton));
         driver.findElement(confirmAnotherAddressButton).click();
         return new GetMedicalAttachment(driver);
@@ -177,7 +171,7 @@ public class GetMedicalAttachment {
     //Нажимаем "Сменить прикрепление" на экране "Поликлиника, к которой вы прикреплены"
     @Step("Нажать Сменить прикрепление")
     public GetMedicalAttachment changeAttachment(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 1000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 5000);
         wait.until(ExpectedConditions.elementToBeClickable(changeAttachmentButton));
         driver.findElement(changeAttachmentButton).click();
         return new GetMedicalAttachment(driver);
@@ -186,7 +180,7 @@ public class GetMedicalAttachment {
     //Нажимаем "Смена места жительства или пребывания" на экране "Причина смены прикрепления?"
     @Step("Нажать Смена места жительства или пребывания")
     public GetMedicalAttachment changeAttachmentReason(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 1000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 5000);
         wait.until(ExpectedConditions.elementToBeClickable(changeAttachmentReasonButton));
         driver.findElement(changeAttachmentReasonButton).click();
         return new GetMedicalAttachment(driver);
@@ -195,10 +189,10 @@ public class GetMedicalAttachment {
     //Нажимаем "Смена места жительства или пребывания" на экране "Причина смены прикрепления?"
     @Step("Нажать Смена места жительства или пребывания")
     public GetMedicalAttachment changeMedicalOrg(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 1000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 10000);
         wait.until(ExpectedConditions.elementToBeClickable(searchMedicalOrgField));
         driver.findElement(searchMedicalOrgField).click();
-        driver.findElement(searchMedicalOrgField).sendKeys(medicalOrganization);
+        driver.findElement(activeSearchMedicalOrgField).sendKeys(medicalOrganization);
         wait.until(ExpectedConditions.elementToBeClickable(medicalOrgField));
         driver.findElement(medicalOrgField).click();
         wait.until(ExpectedConditions.elementToBeClickable(medicalOrgButton));
@@ -211,7 +205,7 @@ public class GetMedicalAttachment {
     //Нажимаем "Смена места жительства или пребывания" на экране "Причина смены прикрепления?"
     @Step("Нажать Смена места жительства или пребывания")
     public GetMedicalAttachment goToTheLk(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 1000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 5000);
         wait.until(ExpectedConditions.elementToBeClickable(lkButton));
         driver.findElement(lkButton).click();
         return new GetMedicalAttachment(driver);
@@ -220,7 +214,7 @@ public class GetMedicalAttachment {
     //Нажимаем "Смена места жительства или пребывания" на экране "Причина смены прикрепления?"
     @Step("Нажать Смена места жительства или пребывания")
     public GetMedicalAttachment searchRequest(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 1000);
+        Wait<WebDriver> wait = new WebDriverWait(driver, 15, 5000);
         wait.until(ExpectedConditions.elementToBeClickable(searchExistRequestsField));
         driver.findElement(searchExistRequestsField).click();
         driver.findElement(searchExistRequestsField).sendKeys(nameOfRequest);
